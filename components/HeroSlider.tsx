@@ -53,28 +53,8 @@ export default function HeroSlider({ banners, onOpenBooking }: HeroSliderProps) 
             }`}
           >
             <div className="absolute inset-0 w-full h-full">
-              {slide.mobile_image_url ? (
-                <>
-                  {/* Desktop Banner Image */}
-                  <Image
-                    src={slide.background_image}
-                    alt={slide.heading}
-                    fill
-                    priority={idx === 0}
-                    className="object-cover object-center hidden sm:block"
-                    sizes="100vw"
-                  />
-                  {/* Mobile Dedicated Banner Image */}
-                  <Image
-                    src={slide.mobile_image_url}
-                    alt={`${slide.heading} (Mobile)`}
-                    fill
-                    priority={idx === 0}
-                    className="object-cover object-center block sm:hidden"
-                    sizes="100vw"
-                  />
-                </>
-              ) : (
+              {/* Desktop Banner Image */}
+              <div className={`absolute inset-0 ${slide.mobile_image_url ? 'hidden sm:block' : 'block'}`}>
                 <Image
                   src={slide.background_image}
                   alt={slide.heading}
@@ -83,22 +63,36 @@ export default function HeroSlider({ banners, onOpenBooking }: HeroSliderProps) 
                   className="object-cover object-center"
                   sizes="100vw"
                 />
+              </div>
+
+              {/* Mobile Dedicated Banner Image */}
+              {slide.mobile_image_url && (
+                <div className="block sm:hidden absolute inset-0">
+                  <Image
+                    src={slide.mobile_image_url}
+                    alt={`${slide.heading} (Mobile)`}
+                    fill
+                    priority={idx === 0}
+                    className="object-cover object-center"
+                    sizes="100vw"
+                  />
+                </div>
               )}
 
-              {/* Black gradient covering ONLY the content area (left side on desktop, bottom content area on mobile) */}
+              {/* Gradient overlays for readability (left side on desktop, content area on mobile) */}
               <div className="hidden sm:block absolute inset-y-0 left-0 sm:w-[60%] lg:w-[48%] bg-gradient-to-r from-black/85 via-black/55 to-transparent pointer-events-none" />
-              <div className="sm:hidden absolute inset-x-0 bottom-0 h-[70%] bg-gradient-to-t from-black/95 via-black/75 via-50% to-transparent pointer-events-none" />
+              <div className="sm:hidden absolute inset-x-0 bottom-0 h-[65%] bg-gradient-to-t from-black/95 via-black/75 via-50% to-transparent pointer-events-none" />
             </div>
 
             <div className="relative z-20 max-w-7xl mx-auto h-full px-4 sm:px-6 lg:px-8 flex items-end justify-center pb-8 sm:pb-0 sm:items-center sm:justify-start">
               <div className="max-w-3xl text-center sm:text-left flex flex-col items-center sm:items-start pt-6 sm:pt-0">
                 {slide.subheading && (
-                  <span className="inline-block text-[#1c71cd] text-xs font-semibold tracking-widest uppercase mb-2 sm:mb-3 font-nav">
+                  <span className="inline-block text-[#1c71cd] text-xs font-semibold tracking-widest uppercase mb-2 sm:mb-3 font-nav drop-shadow-xs">
                     {slide.subheading}
                   </span>
                 )}
 
-                <h1 className="text-[26px] sm:text-[40px] font-semibold text-white leading-tight tracking-tight mb-4 sm:mb-4 font-heading">
+                <h1 className="text-[26px] sm:text-[40px] font-semibold text-white leading-tight tracking-tight mb-4 sm:mb-4 font-heading drop-shadow-sm">
                   {slide.heading}
                 </h1>
 
