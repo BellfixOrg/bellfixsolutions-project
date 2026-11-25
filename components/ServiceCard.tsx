@@ -13,7 +13,7 @@ export default function ServiceCard({ service, onBookNow }: ServiceCardProps) {
   return (
     <div className="group bg-[#F5F8FA] rounded-xl overflow-hidden shadow-2xs hover:shadow-md transition-all duration-300 flex flex-col no-border">
       {/* Service Image */}
-      <Link href={`/services/${service.slug}`} className="relative aspect-[16/10] w-full overflow-hidden block">
+      <Link href={`/services/${service.slug}`} className="relative aspect-[4/3] w-full overflow-hidden block">
         <Image
           src={service.main_image}
           alt={service.name}

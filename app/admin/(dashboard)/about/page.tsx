@@ -67,7 +67,7 @@ export default function AdminAboutPage() {
   }
 
   return (
-    <div className="max-w-3xl space-y-6">
+    <div className="space-y-6">
       <div>
         <h2 className="text-xl font-bold text-[#101820] tracking-tight">
           About Page Management

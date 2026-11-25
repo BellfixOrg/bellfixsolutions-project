@@ -209,7 +209,7 @@ export default async function ServiceDetailPage({
           {service.cover_image && (
             <>
               <div
-                className="absolute inset-0 bg-cover bg-center z-0"
+                className="absolute inset-0 bg-cover bg-right md:bg-center z-0"
                 style={{ backgroundImage: `url(${service.cover_image})` }}
               />
               {/* Black gradient on content side only */}
@@ -228,11 +228,11 @@ export default async function ServiceDetailPage({
               </div>
             )}
 
-            <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white tracking-tight mb-4">
+            <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-white tracking-tight mb-3">
               {service.name}
             </h1>
 
-            <p className="text-sm sm:text-base text-gray-300 max-w-2xl leading-relaxed">
+            <p className="hidden sm:block text-sm text-gray-300 max-w-2xl leading-relaxed">
               {service.short_description}
             </p>
 
