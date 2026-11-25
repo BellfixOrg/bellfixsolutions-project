@@ -225,3 +225,26 @@ header a,
 .animate-marquee:hover {
   animation-play-state: paused;
 }
+
+/* ==========================================================
+   Prevent iPhone / iOS Safari auto-zoom on input focus
+   iOS Safari automatically zooms the entire viewport whenever
+   an input or textarea has a computed font-size less than 16px.
+   Enforcing 16px on mobile viewports completely prevents this.
+   ========================================================== */
+@media screen and (max-width: 768px) {
+  input,
+  select,
+  textarea,
+  input[type="text"],
+  input[type="tel"],
+  input[type="email"],
+  input[type="password"],
+  input[type="number"],
+  input[type="date"],
+  input[type="search"],
+  input[type="url"] {
+    font-size: 16px !important;
+  }
+}
+

@@ -1,10 +1,16 @@
-import type { Metadata } from 'next';
+import type { Metadata, Viewport } from 'next';
 import './globals.css';
 
 export const metadata: Metadata = {
   title: 'BELL FIX & SOLUTIONS – Professional Home Services',
   description:
     'Reliable home maintenance, AC repair, washing machine, refrigerator, water tank cleaning, CCTV, and deep cleaning services delivered right to your doorstep.',
+};
+
+export const viewport: Viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  maximumScale: 1,
 };
 
 export default function RootLayout({
