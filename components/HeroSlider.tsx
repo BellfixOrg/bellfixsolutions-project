@@ -85,28 +85,29 @@ export default function HeroSlider({ banners, onOpenBooking }: HeroSliderProps) 
                 />
               )}
 
-              {/* Black gradient covering ONLY the content area (left side on desktop, bottom-up on mobile) */}
-              <div className="absolute inset-y-0 left-0 w-full sm:w-[60%] lg:w-[48%] bg-gradient-to-r from-black/85 via-black/55 to-transparent pointer-events-none" />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/40 to-transparent sm:hidden pointer-events-none" />
+              {/* Black gradient covering ONLY the content area (left side on desktop, bottom content area on mobile) */}
+              <div className="hidden sm:block absolute inset-y-0 left-0 sm:w-[60%] lg:w-[48%] bg-gradient-to-r from-black/85 via-black/55 to-transparent pointer-events-none" />
+              <div className="sm:hidden absolute inset-x-0 bottom-0 h-[70%] bg-gradient-to-t from-black/95 via-black/75 via-50% to-transparent pointer-events-none" />
             </div>
 
-            <div className="relative z-20 max-w-7xl mx-auto h-full px-4 sm:px-6 lg:px-8 flex items-center">
-              <div className="max-w-3xl text-left pt-6 sm:pt-0">
+            <div className="relative z-20 max-w-7xl mx-auto h-full px-4 sm:px-6 lg:px-8 flex items-end justify-center pb-8 sm:pb-0 sm:items-center sm:justify-start">
+              <div className="max-w-3xl text-center sm:text-left flex flex-col items-center sm:items-start pt-6 sm:pt-0">
                 {slide.subheading && (
-                  <span className="inline-block text-[#1c71cd] text-xs font-semibold tracking-widest uppercase mb-3 font-nav">
+                  <span className="inline-block text-[#1c71cd] text-xs font-semibold tracking-widest uppercase mb-2 sm:mb-3 font-nav">
                     {slide.subheading}
                   </span>
                 )}
 
-                <h1 className="text-[28px] sm:text-[40px] font-semibold text-white leading-tight tracking-tight mb-4 font-heading">
+                <h1 className="text-[26px] sm:text-[40px] font-semibold text-white leading-tight tracking-tight mb-4 sm:mb-4 font-heading">
                   {slide.heading}
                 </h1>
 
-                <p className="text-[16px] text-gray-200 leading-[1.6] mb-8 max-w-lg font-body">
+                {/* Description hidden on mobile view */}
+                <p className="hidden sm:block text-[16px] text-gray-200 leading-[1.6] mb-8 max-w-lg font-body">
                   {slide.description}
                 </p>
 
-                <div className="flex flex-wrap items-center gap-3">
+                <div className="flex flex-wrap items-center justify-center sm:justify-start gap-3 mt-2 sm:mt-0">
                   {onOpenBooking ? (
                     <button
                       onClick={onOpenBooking}
@@ -127,7 +128,7 @@ export default function HeroSlider({ banners, onOpenBooking }: HeroSliderProps) 
 
                   <Link
                     href="/services"
-                    className="bg-transparent hover:bg-white/10 text-white px-6 py-3 rounded-full text-xs sm:text-sm font-semibold tracking-wide transition-all flex items-center gap-1.5"
+                    className="hidden sm:flex bg-transparent hover:bg-white/10 text-white px-6 py-3 rounded-full text-xs sm:text-sm font-semibold tracking-wide transition-all items-center gap-1.5"
                   >
                     <span>Explore Services</span>
                     <ArrowRight className="w-4 h-4" />
@@ -139,27 +140,29 @@ export default function HeroSlider({ banners, onOpenBooking }: HeroSliderProps) 
         );
       })}
 
+      {/* Next and Previous Buttons (Hidden on mobile) */}
       {slides.length > 1 && (
         <>
           <button
             onClick={prevSlide}
             aria-label="Previous Slide"
-            className="absolute left-3 sm:left-6 top-1/2 -translate-y-1/2 z-20 w-10 h-10 rounded-full bg-[#102A43]/60 hover:bg-[#1c71cd] text-white hover:text-[#101820] flex items-center justify-center transition-all cursor-pointer backdrop-blur-xs"
+            className="hidden sm:flex absolute left-3 sm:left-6 top-1/2 -translate-y-1/2 z-20 w-10 h-10 rounded-full bg-[#102A43]/60 hover:bg-[#1c71cd] text-white hover:text-[#101820] items-center justify-center transition-all cursor-pointer backdrop-blur-xs"
           >
             <ChevronLeft className="w-5 h-5" />
           </button>
           <button
             onClick={nextSlide}
             aria-label="Next Slide"
-            className="absolute right-3 sm:right-6 top-1/2 -translate-y-1/2 z-20 w-10 h-10 rounded-full bg-[#102A43]/60 hover:bg-[#1c71cd] text-white hover:text-[#101820] flex items-center justify-center transition-all cursor-pointer backdrop-blur-xs"
+            className="hidden sm:flex absolute right-3 sm:right-6 top-1/2 -translate-y-1/2 z-20 w-10 h-10 rounded-full bg-[#102A43]/60 hover:bg-[#1c71cd] text-white hover:text-[#101820] items-center justify-center transition-all cursor-pointer backdrop-blur-xs"
           >
             <ChevronRight className="w-5 h-5" />
           </button>
         </>
       )}
 
+      {/* Bottom slide bar indicators (Hidden on mobile) */}
       {slides.length > 1 && (
-        <div className="absolute bottom-5 left-1/2 -translate-x-1/2 z-20 flex items-center gap-1.5">
+        <div className="hidden sm:flex absolute bottom-5 left-1/2 -translate-x-1/2 z-20 items-center gap-1.5">
           {slides.map((_, idx) => (
             <button
               key={idx}

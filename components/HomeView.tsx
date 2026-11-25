@@ -73,11 +73,13 @@ export default function HomeView({
           onBookNow={(name) => handleOpenBooking(name)}
         />
 
-        {/* 5. Why Choose Us (Left image, right accordion) */}
+         {/* 5. How It Works Process */}
+        <HowItWorks />
+
+        {/* 6. Why Choose Us (Left image, right accordion) */}
         <WhyChooseUs data={whyChooseUs} />
 
-        {/* 6. How It Works Process */}
-        <HowItWorks />
+       
 
         {/* 7. Customer Testimonials */}
         <TestimonialsSection testimonials={testimonials} />

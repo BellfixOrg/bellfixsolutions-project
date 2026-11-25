@@ -40,47 +40,90 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
-/* Headings (H1-H3): Montserrat, semi-bold (600) */
-h1, h2, h3, .font-heading {
+/* Headings (H1-H3): Montserrat, semi-bold (600) - Public site only */
+body:not(.admin-panel) h1,
+body:not(.admin-panel) h2,
+body:not(.admin-panel) h3,
+.font-heading {
   font-family: 'Montserrat', sans-serif;
   font-weight: 600;
   letter-spacing: -0.015em;
 }
 
-/* H1: 40px (28px on mobile) */
-h1 {
+/* H1: 40px (28px on mobile) - Public site only */
+body:not(.admin-panel) h1 {
   font-size: 28px;
   line-height: 1.25;
 }
 @media (min-width: 640px) {
-  h1 {
+  body:not(.admin-panel) h1 {
     font-size: 40px;
     line-height: 1.25;
   }
 }
 
-/* H2: 32px (24px on mobile) */
-h2 {
+/* H2: 32px (24px on mobile) - Public site only */
+body:not(.admin-panel) h2 {
   font-size: 24px;
   line-height: 1.3;
 }
 @media (min-width: 640px) {
-  h2 {
+  body:not(.admin-panel) h2 {
     font-size: 32px;
     line-height: 1.35;
   }
 }
 
-/* H3: 24px (20px on mobile) */
-h3 {
+/* H3: 24px (20px on mobile) - Public site only */
+body:not(.admin-panel) h3 {
   font-size: 20px;
   line-height: 1.35;
 }
 @media (min-width: 640px) {
-  h3 {
+  body:not(.admin-panel) h3 {
     font-size: 24px;
     line-height: 1.4;
   }
+}
+
+/* ==========================================================
+   Admin Panel Typography Management
+   Ensure clean, proportional, professional dashboard sizes
+========================================================== */
+.admin-panel,
+.admin-root {
+  font-family: 'Open Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+.admin-panel h1,
+.admin-root h1 {
+  font-size: 1.125rem !important; /* 18px */
+  line-height: 1.5rem !important;
+  font-weight: 700 !important;
+  letter-spacing: -0.01em !important;
+}
+
+.admin-panel h2,
+.admin-root h2 {
+  font-size: 1.0625rem !important; /* 17px */
+  line-height: 1.5rem !important;
+  font-weight: 700 !important;
+  letter-spacing: -0.01em !important;
+}
+
+.admin-panel h3,
+.admin-root h3 {
+  font-size: 0.9375rem !important; /* 15px */
+  line-height: 1.375rem !important;
+  font-weight: 600 !important;
+  letter-spacing: normal !important;
+}
+
+.admin-panel h4,
+.admin-root h4 {
+  font-size: 0.8125rem !important; /* 13px */
+  line-height: 1.25rem !important;
+  font-weight: 600 !important;
 }
 
 /* Buttons and navigation: Open Sans, semi-bold (600) */

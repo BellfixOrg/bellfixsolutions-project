@@ -12,7 +12,7 @@ export default function AdminLayoutClient({
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
   return (
-    <div className="min-h-screen bg-[#F5F8FA] flex">
+    <div className="admin-panel min-h-screen bg-[#F5F8FA] flex">
       {/* Sidebar */}
       <AdminSidebar
         isOpen={sidebarOpen}

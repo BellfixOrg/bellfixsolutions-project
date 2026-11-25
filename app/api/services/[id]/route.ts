@@ -1,5 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { revalidatePath } from 'next/cache';
 import { deleteService, saveService } from '@/lib/db';
+
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
 
 export async function PUT(
   req: NextRequest,
@@ -13,6 +17,13 @@ export async function PUT(
     }
     const body = await req.json();
     const updated = await saveService({ ...body, id }, body.district_ids);
+
+    try {
+      revalidatePath('/', 'layout');
+      revalidatePath('/services', 'layout');
+      revalidatePath('/api/navigation');
+    } catch {}
+
     return NextResponse.json({ success: true, data: updated });
   } catch (error: any) {
     console.error('Failed to update service:', error);
@@ -34,6 +45,13 @@ export async function DELETE(
       return NextResponse.json({ success: false, error: 'Service ID is required' }, { status: 400 });
     }
     const deleted = await deleteService(id);
+
+    try {
+      revalidatePath('/', 'layout');
+      revalidatePath('/services', 'layout');
+      revalidatePath('/api/navigation');
+    } catch {}
+
     return NextResponse.json({ success: deleted });
   } catch (error: any) {
     console.error('Failed to delete service:', error);

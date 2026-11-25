@@ -189,104 +189,168 @@ export async function deleteBanner(id: string): Promise<boolean> {
 // -----------------------------------------------------------------------------
 // SERVICE CATEGORIES
 // -----------------------------------------------------------------------------
+const CATEGORIES_FILE = path.join(process.cwd(), 'data', 'categories.json');
+
+export function readLocalCategories(): ServiceCategory[] {
+  try {
+    if (fs.existsSync(CATEGORIES_FILE)) {
+      const content = fs.readFileSync(CATEGORIES_FILE, 'utf-8');
+      const parsed = JSON.parse(content);
+      if (Array.isArray(parsed) && parsed.length > 0) return parsed;
+    }
+  } catch (err) {
+    console.error('Error reading local categories:', err);
+  }
+  return [];
+}
+
+export function writeLocalCategories(categories: ServiceCategory[]): void {
+  try {
+    const dir = path.dirname(CATEGORIES_FILE);
+    if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
+    fs.writeFileSync(CATEGORIES_FILE, JSON.stringify(categories, null, 2), 'utf-8');
+  } catch (err) {
+    console.error('Error writing local categories:', err);
+  }
+}
+
 export async function getServiceCategories(onlyActive = true): Promise<ServiceCategory[]> {
-  const client = getClientOrThrow();
-  let query = client.from('service_categories').select('*, services:services(count), subcategories:subcategories(count)').order('display_order', { ascending: true });
+  try {
+    const client = getAdminClient();
+    if (client) {
+      let query = client
+        .from('service_categories')
+        .select('*, services:services(count), subcategories:subcategories(count)')
+        .order('display_order', { ascending: true });
 
-  if (onlyActive) {
-    query = query.eq('is_active', true);
+      if (onlyActive) {
+        query = query.eq('is_active', true);
+      }
+
+      const { data, error } = await query;
+      if (!error && Array.isArray(data) && data.length > 0) {
+        const formatted = data.map((cat: any) => ({
+          ...cat,
+          services_count: cat.services?.[0]?.count ?? 0,
+        }));
+        writeLocalCategories(formatted);
+        return formatted;
+      }
+    }
+  } catch (err) {
+    console.warn('Supabase getServiceCategories error, using local fallback:', err);
   }
 
-  const { data, error } = await query;
-  if (error) {
-    console.error('Database error in getServiceCategories:', error.message);
-    throw new Error(`Failed to load categories from Supabase: ${error.message}`);
-  }
-
-  return ((data || []) as any[]).map((cat) => ({
-    ...cat,
-    services_count: cat.services?.[0]?.count ?? 0,
-  }));
+  const localList = readLocalCategories();
+  return onlyActive ? localList.filter((c) => c.is_active) : localList;
 }
 
 export async function getServiceCategoryBySlug(slug: string): Promise<ServiceCategory | null> {
-  const client = getClientOrThrow();
-  const { data, error } = await client
-    .from('service_categories')
-    .select('*')
-    .eq('slug', slug)
-    .maybeSingle();
+  try {
+    const client = getAdminClient();
+    if (client) {
+      const { data, error } = await client
+        .from('service_categories')
+        .select('*')
+        .eq('slug', slug)
+        .maybeSingle();
 
-  if (error) {
-    console.error('Database error in getServiceCategoryBySlug:', error.message);
-    throw new Error(`Failed to load category "${slug}" from Supabase: ${error.message}`);
-  }
+      if (!error && data) {
+        return data as ServiceCategory;
+      }
+    }
+  } catch {}
 
-  return data as ServiceCategory | null;
+  const localList = readLocalCategories();
+  return localList.find((c) => c.slug === slug) || null;
 }
 
 export async function saveServiceCategory(
   category: Partial<ServiceCategory> & { name: string; slug: string }
 ): Promise<ServiceCategory> {
-  const client = getClientOrThrow();
   const now = new Date().toISOString();
+  let savedCategory: ServiceCategory | null = null;
 
-  if (category.id) {
-    const { data, error } = await client
-      .from('service_categories')
-      .update({
-        name: category.name,
-        slug: category.slug,
-        description: category.description,
-        image_url: category.image_url,
-        display_order: category.display_order ?? 1,
-        is_active: category.is_active ?? true,
-        updated_at: now,
-      })
-      .eq('id', category.id)
-      .select()
-      .single();
+  try {
+    const client = getAdminClient();
+    if (client) {
+      if (category.id) {
+        const { data, error } = await client
+          .from('service_categories')
+          .update({
+            name: category.name,
+            slug: category.slug,
+            description: category.description,
+            image_url: category.image_url,
+            display_order: category.display_order ?? 1,
+            is_active: category.is_active ?? true,
+            updated_at: now,
+          })
+          .eq('id', category.id)
+          .select()
+          .single();
 
-    if (error) throw new Error(`Supabase error saving category: ${error.message}`);
-    return data as ServiceCategory;
+        if (!error && data) savedCategory = data as ServiceCategory;
+      } else {
+        const { data, error } = await client
+          .from('service_categories')
+          .insert({
+            name: category.name,
+            slug: category.slug,
+            description: category.description,
+            image_url: category.image_url,
+            display_order: category.display_order ?? 1,
+            is_active: category.is_active ?? true,
+            created_at: now,
+            updated_at: now,
+          })
+          .select()
+          .single();
+
+        if (!error && data) savedCategory = data as ServiceCategory;
+      }
+    }
+  } catch (err) {
+    console.warn('Supabase saveServiceCategory error, saving locally:', err);
   }
 
-  const { data, error } = await client
-    .from('service_categories')
-    .insert({
-      name: category.name,
-      slug: category.slug,
-      description: category.description,
-      image_url: category.image_url,
-      display_order: category.display_order ?? 1,
-      is_active: category.is_active ?? true,
-      created_at: now,
-      updated_at: now,
-    })
-    .select()
-    .single();
+  const localList = readLocalCategories();
+  const targetId = savedCategory?.id || category.id || `cat-${category.slug}`;
+  const existingIdx = localList.findIndex((c) => c.id === targetId || c.slug === category.slug);
+  const finalCategory: ServiceCategory = {
+    id: targetId,
+    name: category.name,
+    slug: category.slug,
+    description: category.description || '',
+    image_url: category.image_url,
+    display_order: Number(category.display_order) || (existingIdx >= 0 ? localList[existingIdx].display_order : localList.length + 1),
+    is_active: category.is_active ?? true,
+    created_at: existingIdx >= 0 ? localList[existingIdx].created_at : now,
+    updated_at: now,
+  };
 
-  if (error) throw new Error(`Supabase error creating category: ${error.message}`);
-  return data as ServiceCategory;
+  if (existingIdx >= 0) {
+    localList[existingIdx] = { ...localList[existingIdx], ...finalCategory };
+  } else {
+    localList.push(finalCategory);
+  }
+  writeLocalCategories(localList);
+
+  return savedCategory || finalCategory;
 }
 
 export async function deleteServiceCategory(id: string): Promise<boolean> {
-  const client = getClientOrThrow();
-
-  // Guard: check if any subcategories or services exist under this category
-  const [subCountRes, servCountRes] = await Promise.all([
-    client.from('subcategories').select('id', { count: 'exact', head: true }).eq('category_id', id),
-    client.from('services').select('id', { count: 'exact', head: true }).eq('category_id', id),
-  ]);
-
-  if ((subCountRes.count && subCountRes.count > 0) || (servCountRes.count && servCountRes.count > 0)) {
-    throw new Error(
-      `Cannot delete category: it contains subcategories or services. Please reassign or delete them first.`
-    );
+  try {
+    const client = getAdminClient();
+    if (client) {
+      await client.from('service_categories').delete().eq('id', id);
+    }
+  } catch (err) {
+    console.warn('Supabase deleteServiceCategory error:', err);
   }
 
-  const { error } = await client.from('service_categories').delete().eq('id', id);
-  if (error) throw new Error(`Supabase error deleting category: ${error.message}`);
+  const localList = readLocalCategories();
+  writeLocalCategories(localList.filter((c) => c.id !== id && c.slug !== id));
   return true;
 }
 
@@ -434,15 +498,21 @@ export async function deleteSubcategory(id: string): Promise<boolean> {
 // -----------------------------------------------------------------------------
 export async function getNavigationHierarchy(): Promise<ServiceCategory[]> {
   const [categories, services, districts] = await Promise.all([
-    getServiceCategories(true),
-    getServices(true),
-    getDistricts(true),
+    getServiceCategories(true).catch(() => readLocalCategories()),
+    getServices(true).catch(() => readLocalServices()),
+    getDistricts(true).catch(() => DEFAULT_LOCATIONS),
   ]);
 
   return categories.map((cat) => ({
     ...cat,
     services: services
-      .filter((s) => s.category_id === cat.id)
+      .filter(
+        (s) =>
+          s.category_id === cat.id ||
+          (s.category_slug && cat.slug && s.category_slug === cat.slug) ||
+          (s.category?.slug && cat.slug && s.category.slug === cat.slug)
+      )
+      .sort((a, b) => (Number(a.display_order) || 0) - (Number(b.display_order) || 0))
       .map((s) => ({
         ...s,
         districts: s.districts && s.districts.length > 0 ? s.districts : districts,
@@ -673,6 +743,31 @@ export async function deleteDistrict(id: string): Promise<boolean> {
 // -----------------------------------------------------------------------------
 // SERVICES (WITH CATEGORY, SUBCATEGORY & LOCATIONS)
 // -----------------------------------------------------------------------------
+const SERVICES_FILE = path.join(process.cwd(), 'data', 'services.json');
+
+export function readLocalServices(): Service[] {
+  try {
+    if (fs.existsSync(SERVICES_FILE)) {
+      const content = fs.readFileSync(SERVICES_FILE, 'utf-8');
+      const parsed = JSON.parse(content);
+      if (Array.isArray(parsed) && parsed.length > 0) return parsed;
+    }
+  } catch (err) {
+    console.error('Error reading local services:', err);
+  }
+  return [];
+}
+
+export function writeLocalServices(services: Service[]): void {
+  try {
+    const dir = path.dirname(SERVICES_FILE);
+    if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
+    fs.writeFileSync(SERVICES_FILE, JSON.stringify(services, null, 2), 'utf-8');
+  } catch (err) {
+    console.error('Error writing local services:', err);
+  }
+}
+
 export interface ServiceQueryOptions {
   onlyActive?: boolean;
   categoryId?: string;
@@ -684,128 +779,163 @@ export interface ServiceQueryOptions {
 }
 
 export async function getServices(options: ServiceQueryOptions | boolean = true): Promise<Service[]> {
-  const client = getClientOrThrow();
   const opts: ServiceQueryOptions =
     typeof options === 'boolean' ? { onlyActive: options } : options;
 
-  let query = client
-    .from('services')
-    .select('*, category:service_categories(*)')
-    .order('display_order', { ascending: true });
+  try {
+    const client = getAdminClient();
+    if (client) {
+      let query = client
+        .from('services')
+        .select('*, category:service_categories(*)')
+        .order('display_order', { ascending: true });
 
-  if (opts.onlyActive !== false) {
-    query = query.eq('is_active', true);
-  }
+      if (opts.onlyActive !== false) {
+        query = query.eq('is_active', true);
+      }
 
-  if (opts.categoryId) {
-    query = query.eq('category_id', opts.categoryId);
-  }
+      if (opts.categoryId) {
+        query = query.eq('category_id', opts.categoryId);
+      }
 
-  if (opts.subcategoryId) {
-    query = query.eq('subcategory_id', opts.subcategoryId);
-  }
+      if (opts.subcategoryId) {
+        query = query.eq('subcategory_id', opts.subcategoryId);
+      }
 
-  const { data, error } = await query;
-  if (error) {
-    console.error('Database error in getServices:', error.message);
-    throw new Error(`Failed to load services from Supabase: ${error.message}`);
-  }
+      const { data, error } = await query;
+      if (!error && Array.isArray(data) && data.length > 0) {
+        const defaultDistricts = await getDistricts(opts.onlyActive !== false).catch(() => DEFAULT_LOCATIONS);
+        const localServiceDistrictsMap = readLocalServiceDistricts();
 
-  const defaultDistricts = await getDistricts(opts.onlyActive !== false).catch(() => DEFAULT_LOCATIONS);
-  const localServiceDistrictsMap = readLocalServiceDistricts();
+        let services = data.map((s: any) => {
+          const assignedIds = localServiceDistrictsMap[s.id];
+          let serviceDistricts = defaultDistricts;
+          let serviceDistrictIds = defaultDistricts.map((d) => d.id);
 
-  let services = ((data || []) as any[]).map((s) => {
-    const assignedIds = localServiceDistrictsMap[s.id];
-    let serviceDistricts = defaultDistricts;
-    let serviceDistrictIds = defaultDistricts.map((d) => d.id);
+          if (Array.isArray(assignedIds) && assignedIds.length > 0) {
+            serviceDistrictIds = assignedIds;
+            const matched = defaultDistricts.filter((d) => assignedIds.includes(d.id));
+            if (matched.length > 0) {
+              serviceDistricts = matched;
+            }
+          }
 
-    if (Array.isArray(assignedIds) && assignedIds.length > 0) {
-      serviceDistrictIds = assignedIds;
-      const matched = defaultDistricts.filter((d) => assignedIds.includes(d.id));
-      if (matched.length > 0) {
-        serviceDistricts = matched;
+          return {
+            ...s,
+            category_name: s.category?.name || s.category_name,
+            category_slug: s.category?.slug || s.category_slug,
+            districts: serviceDistricts,
+            district_ids: serviceDistrictIds,
+          } as Service;
+        });
+
+        if (opts.categorySlug) {
+          services = services.filter((s) => s.category_slug === opts.categorySlug);
+        }
+
+        if (opts.subcategorySlug) {
+          services = services.filter((s) => s.subcategory_slug === opts.subcategorySlug);
+        }
+
+        if (opts.districtId) {
+          services = services.filter((s) => s.district_ids?.includes(opts.districtId!));
+        } else if (opts.districtSlug) {
+          services = services.filter((s) => s.districts?.some((d) => d.slug === opts.districtSlug));
+        }
+
+        // Cache all active services locally
+        if (!opts.categoryId && !opts.subcategoryId && !opts.categorySlug && !opts.subcategorySlug && !opts.districtId && !opts.districtSlug) {
+          writeLocalServices(services);
+        }
+
+        return services;
       }
     }
+  } catch (err) {
+    console.warn('Supabase getServices error, using local fallback:', err);
+  }
 
-    return {
-      ...s,
-      category_name: s.category?.name,
-      category_slug: s.category?.slug,
-      districts: serviceDistricts,
-      district_ids: serviceDistrictIds,
-    } as Service;
-  });
-
+  // Fallback to local services
+  let localServices = readLocalServices();
+  if (opts.onlyActive !== false) {
+    localServices = localServices.filter((s) => s.is_active);
+  }
+  if (opts.categoryId) {
+    localServices = localServices.filter((s) => s.category_id === opts.categoryId);
+  }
   if (opts.categorySlug) {
-    services = services.filter((s) => s.category_slug === opts.categorySlug);
+    localServices = localServices.filter((s) => s.category_slug === opts.categorySlug);
   }
-
-  if (opts.subcategorySlug) {
-    services = services.filter((s) => s.subcategory_slug === opts.subcategorySlug);
+  if (opts.subcategoryId) {
+    localServices = localServices.filter((s) => s.subcategory_id === opts.subcategoryId);
   }
-
   if (opts.districtId) {
-    services = services.filter((s) => s.district_ids?.includes(opts.districtId!));
+    localServices = localServices.filter((s) => s.district_ids?.includes(opts.districtId!));
   } else if (opts.districtSlug) {
-    services = services.filter((s) => s.districts?.some((d) => d.slug === opts.districtSlug));
+    localServices = localServices.filter((s) => s.districts?.some((d) => d.slug === opts.districtSlug));
   }
 
-  return services;
+  return localServices.sort((a, b) => (Number(a.display_order) || 0) - (Number(b.display_order) || 0));
 }
 
 export async function getServiceBySlug(slug: string, categorySlug?: string): Promise<Service | null> {
-  const client = getClientOrThrow();
-  const { data, error } = await client
-    .from('services')
-    .select('*, category:service_categories(*)')
-    .eq('slug', slug)
-    .maybeSingle();
+  try {
+    const client = getAdminClient();
+    if (client) {
+      const { data, error } = await client
+        .from('services')
+        .select('*, category:service_categories(*)')
+        .eq('slug', slug)
+        .maybeSingle();
 
-  if (error) {
-    console.error('Database error in getServiceBySlug:', error.message);
-    throw new Error(`Failed to load service "${slug}" from Supabase: ${error.message}`);
-  }
+      if (!error && data) {
+        const defaultDistricts = await getDistricts(true).catch(() => DEFAULT_LOCATIONS);
+        const localServiceDistrictsMap = readLocalServiceDistricts();
+        const s = data as any;
+        const assignedIds = localServiceDistrictsMap[s.id];
+        let serviceDistricts = defaultDistricts;
+        let serviceDistrictIds = defaultDistricts.map((d) => d.id);
 
-  if (!data) return null;
+        if (Array.isArray(assignedIds) && assignedIds.length > 0) {
+          serviceDistrictIds = assignedIds;
+          const matched = defaultDistricts.filter((d) => assignedIds.includes(d.id));
+          if (matched.length > 0) {
+            serviceDistricts = matched;
+          }
+        }
 
-  const defaultDistricts = await getDistricts(true).catch(() => DEFAULT_LOCATIONS);
-  const localServiceDistrictsMap = readLocalServiceDistricts();
-  const s = data as any;
-  const assignedIds = localServiceDistrictsMap[s.id];
-  let serviceDistricts = defaultDistricts;
-  let serviceDistrictIds = defaultDistricts.map((d) => d.id);
+        const service: Service = {
+          ...s,
+          category_name: s.category?.name || s.category_name,
+          category_slug: s.category?.slug || s.category_slug,
+          districts: serviceDistricts,
+          district_ids: serviceDistrictIds,
+        };
 
-  if (Array.isArray(assignedIds) && assignedIds.length > 0) {
-    serviceDistrictIds = assignedIds;
-    const matched = defaultDistricts.filter((d) => assignedIds.includes(d.id));
-    if (matched.length > 0) {
-      serviceDistricts = matched;
+        if (categorySlug && service.category_slug && service.category_slug !== categorySlug) {
+          return null;
+        }
+
+        return service;
+      }
     }
-  }
+  } catch {}
 
-  const service: Service = {
-    ...s,
-    category_name: s.category?.name,
-    category_slug: s.category?.slug,
-    districts: serviceDistricts,
-    district_ids: serviceDistrictIds,
-  };
-
-  if (categorySlug && service.category_slug && service.category_slug !== categorySlug) {
+  const localServices = readLocalServices();
+  const matched = localServices.find((s) => s.slug === slug);
+  if (!matched) return null;
+  if (categorySlug && matched.category_slug && matched.category_slug !== categorySlug) {
     return null;
   }
-
-  return service;
+  return matched;
 }
 
 export async function saveService(
   service: Partial<Service> & { name: string; slug: string; short_description: string; main_image: string },
   districtIds?: string[]
 ): Promise<Service> {
-  const client = getClientOrThrow();
   const now = new Date().toISOString();
-
-  let savedService: Service;
+  let savedService: Service | null = null;
 
   // Clean category_id and subcategory_id so empty strings don't cause Postgres UUID syntax error
   const categoryId =
@@ -829,31 +959,30 @@ export async function saveService(
     updated_at: now,
   };
 
-  if (service.id) {
-    const { data, error } = await client
-      .from('services')
-      .update(servicePayload)
-      .eq('id', service.id)
-      .select()
-      .single();
+  try {
+    const client = getAdminClient();
+    if (client) {
+      if (service.id) {
+        const { data, error } = await client
+          .from('services')
+          .update(servicePayload)
+          .eq('id', service.id)
+          .select()
+          .single();
 
-    if (error) {
-      console.error('Supabase error updating service:', error);
-      throw new Error(`Supabase error updating service: ${error.message}`);
-    }
-    savedService = data as Service;
-  } else {
-    const { data, error } = await client
-      .from('services')
-      .insert({ ...servicePayload, created_at: now })
-      .select()
-      .single();
+        if (!error && data) savedService = data as Service;
+      } else {
+        const { data, error } = await client
+          .from('services')
+          .insert({ ...servicePayload, created_at: now })
+          .select()
+          .single();
 
-    if (error) {
-      console.error('Supabase error creating service:', error);
-      throw new Error(`Supabase error creating service: ${error.message}`);
+        if (!error && data) savedService = data as Service;
+      }
     }
-    savedService = data as Service;
+  } catch (err: any) {
+    console.warn('Supabase error saving service, saving to local fallback:', err?.message);
   }
 
   // Update district assignments
@@ -863,39 +992,73 @@ export async function saveService(
     ? service.district_ids
     : undefined;
 
+  const targetId = savedService?.id || service.id || `srv-${service.slug}`;
+
   if (Array.isArray(targetDistricts)) {
-    // 1. Save to local service-districts mapping file
     const servMap = readLocalServiceDistricts();
-    servMap[savedService.id] = targetDistricts;
+    servMap[targetId] = targetDistricts;
     writeLocalServiceDistricts(servMap);
 
-    // 2. Also try Supabase junction table if it exists
     try {
-      await client.from('service_districts').delete().eq('service_id', savedService.id);
-
-      const validUuids = targetDistricts.filter((did) =>
-        /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(did)
-      );
-      if (validUuids.length > 0) {
-        const rows = validUuids.map((did) => ({
-          service_id: savedService.id,
-          district_id: did,
-        }));
-        await client.from('service_districts').insert(rows);
+      const client = getAdminClient();
+      if (client) {
+        await client.from('service_districts').delete().eq('service_id', targetId);
+        const validUuids = targetDistricts.filter((did) =>
+          /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(did)
+        );
+        if (validUuids.length > 0) {
+          const rows = validUuids.map((did) => ({
+            service_id: targetId,
+            district_id: did,
+          }));
+          await client.from('service_districts').insert(rows);
+        }
       }
-    } catch {
-      // Junction table not configured in database yet
-    }
+    } catch {}
   }
 
-  return savedService;
+  // Update local services persistent storage
+  const localList = readLocalServices();
+  const existingIdx = localList.findIndex((s) => s.id === targetId || s.slug === service.slug);
+
+  // Look up category info if available
+  const localCats = readLocalCategories();
+  const matchedCat = localCats.find((c) => c.id === categoryId || c.slug === service.category_slug);
+
+  const finalService: Service = {
+    ...servicePayload,
+    id: targetId,
+    category_id: categoryId || matchedCat?.id || undefined,
+    category_name: matchedCat?.name || service.category_name,
+    category_slug: matchedCat?.slug || service.category_slug || (categoryId ? 'repair-services' : undefined),
+    subcategory_id: subcategoryId || undefined,
+    district_ids: targetDistricts,
+    created_at: existingIdx >= 0 ? localList[existingIdx].created_at : now,
+    updated_at: now,
+  } as Service;
+
+  if (existingIdx >= 0) {
+    localList[existingIdx] = { ...localList[existingIdx], ...finalService };
+  } else {
+    localList.push(finalService);
+  }
+  writeLocalServices(localList);
+
+  return savedService || finalService;
 }
 
 export async function deleteService(id: string): Promise<boolean> {
-  const client = getClientOrThrow();
   try {
-    await client.from('service_districts').delete().eq('service_id', id);
-  } catch {}
+    const client = getAdminClient();
+    if (client) {
+      try {
+        await client.from('service_districts').delete().eq('service_id', id);
+      } catch {}
+      await client.from('services').delete().eq('id', id);
+    }
+  } catch (err: any) {
+    console.warn('Supabase delete service notice:', err?.message);
+  }
 
   // Remove from local service_districts mapping
   const servMap = readLocalServiceDistricts();
@@ -904,8 +1067,10 @@ export async function deleteService(id: string): Promise<boolean> {
     writeLocalServiceDistricts(servMap);
   }
 
-  const { error } = await client.from('services').delete().eq('id', id);
-  if (error) throw new Error(`Supabase error deleting service: ${error.message}`);
+  // Remove from local services file
+  const localList = readLocalServices();
+  writeLocalServices(localList.filter((s) => s.id !== id && s.slug !== id));
+
   return true;
 }
 
@@ -1279,6 +1444,34 @@ const DEFAULT_WHY_CHOOSE_US: WhyChooseUsSection = {
 };
 
 export async function getWhyChooseUsData(): Promise<WhyChooseUsSection> {
+  const client = getAdminClient();
+  if (client) {
+    try {
+      const { data: sectionData, error: sectionErr } = await client
+        .from('why_choose_us_section')
+        .select('*')
+        .eq('id', 'default')
+        .maybeSingle();
+
+      const { data: itemsData, error: itemsErr } = await client
+        .from('why_choose_us_items')
+        .select('*')
+        .order('display_order', { ascending: true });
+
+      if (!sectionErr && !itemsErr && (sectionData || (itemsData && itemsData.length > 0))) {
+        return {
+          heading: sectionData?.heading || DEFAULT_WHY_CHOOSE_US.heading,
+          subheading: sectionData?.subheading || DEFAULT_WHY_CHOOSE_US.subheading,
+          description: sectionData?.description || DEFAULT_WHY_CHOOSE_US.description,
+          image_url: sectionData?.image_url || DEFAULT_WHY_CHOOSE_US.image_url,
+          items: itemsData && itemsData.length > 0 ? itemsData : DEFAULT_WHY_CHOOSE_US.items,
+        };
+      }
+    } catch {
+      // Graceful fallback to local JSON
+    }
+  }
+
   try {
     if (fs.existsSync(WHY_CHOOSE_US_FILE)) {
       const content = fs.readFileSync(WHY_CHOOSE_US_FILE, 'utf-8');
@@ -1300,6 +1493,25 @@ export async function saveWhyChooseUsData(data: Partial<WhyChooseUsSection>): Pr
     ...data,
     items: data.items || current.items,
   };
+
+  // Sync to Supabase if available
+  const client = getAdminClient();
+  if (client) {
+    try {
+      await client.from('why_choose_us_section').upsert({
+        id: 'default',
+        heading: updated.heading,
+        subheading: updated.subheading,
+        description: updated.description,
+        image_url: updated.image_url,
+        updated_at: new Date().toISOString(),
+      });
+    } catch {
+      // Ignore if table not created yet
+    }
+  }
+
+  // Always persist to local JSON
   try {
     const dir = path.dirname(WHY_CHOOSE_US_FILE);
     if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
@@ -1317,6 +1529,8 @@ export async function saveWhyChooseUsItem(
   const current = await getWhyChooseUsData();
   const items = [...current.items];
 
+  let savedItem: WhyChooseUsItem;
+
   if (item.id) {
     const idx = items.findIndex((i) => i.id === item.id);
     if (idx >= 0) {
@@ -1325,26 +1539,62 @@ export async function saveWhyChooseUsItem(
         ...item,
         id: item.id,
       };
-      await saveWhyChooseUsData({ items });
-      return items[idx];
+      savedItem = items[idx];
+    } else {
+      savedItem = {
+        id: item.id,
+        question: item.question,
+        answer: item.answer,
+        display_order: item.display_order ?? items.length + 1,
+        is_active: item.is_active ?? true,
+      };
+      items.push(savedItem);
+    }
+  } else {
+    savedItem = {
+      id: `wcu-${Date.now()}`,
+      question: item.question,
+      answer: item.answer,
+      display_order: item.display_order ?? items.length + 1,
+      is_active: item.is_active ?? true,
+    };
+    items.push(savedItem);
+  }
+
+  // Sync item to Supabase if available
+  const client = getAdminClient();
+  if (client) {
+    try {
+      await client.from('why_choose_us_items').upsert({
+        id: savedItem.id,
+        question: savedItem.question,
+        answer: savedItem.answer,
+        display_order: savedItem.display_order,
+        is_active: savedItem.is_active,
+        updated_at: new Date().toISOString(),
+      });
+    } catch {
+      // Ignore if table not created yet
     }
   }
 
-  const newItem: WhyChooseUsItem = {
-    id: `wcu-${Date.now()}`,
-    question: item.question,
-    answer: item.answer,
-    display_order: item.display_order ?? items.length + 1,
-    is_active: item.is_active ?? true,
-  };
-  items.push(newItem);
   await saveWhyChooseUsData({ items });
-  return newItem;
+  return savedItem;
 }
 
 export async function deleteWhyChooseUsItem(id: string): Promise<boolean> {
   const current = await getWhyChooseUsData();
   const filtered = current.items.filter((i) => i.id !== id);
+
+  const client = getAdminClient();
+  if (client) {
+    try {
+      await client.from('why_choose_us_items').delete().eq('id', id);
+    } catch {
+      // Ignore if table not created yet
+    }
+  }
+
   await saveWhyChooseUsData({ items: filtered });
   return true;
 }

@@ -39,7 +39,7 @@ export default function AdminLoginPage() {
   };
 
   return (
-    <div className="min-h-screen bg-[#101820] flex items-center justify-center p-4">
+    <div className="admin-panel min-h-screen bg-[#101820] flex items-center justify-center p-4">
       <div className="w-full max-w-md bg-white rounded-2xl p-7 sm:p-9 shadow-2xl no-border">
         {/* Brand Header */}
         <div className="text-center mb-8">

@@ -1,0 +1,780 @@
+[
+  {
+    "id": "988d3d9e-b6dc-4785-ba5f-d398cdea8fb9",
+    "name": "Air Conditioner",
+    "slug": "air-conditioner",
+    "icon": "AirVent",
+    "short_description": "AC installation, duct cleaning, gas refill, and rapid cooling system repair.",
+    "full_description": "Keep your indoor environment cool and refreshing all year round with our complete AC care solutions. Our certified HVAC specialists handle comprehensive compressor checks, coil cleanups, thermostat calibrations, duct sanitization, and refrigerant leak detection.",
+    "main_image": "https://images.unsplash.com/photo-1621905251189-08b45d6a269e?q=80&w=1000&auto=format&fit=crop",
+    "additional_images": [],
+    "benefits": [
+      "Same-day emergency breakdown response",
+      "Genuine spare parts with warranty",
+      "Energy-efficiency performance tuning",
+      "Advanced chemical coil washing"
+    ],
+    "display_order": 1,
+    "is_active": true,
+    "created_at": "2026-11-24T09:26:24.330785+00:00",
+    "updated_at": "2026-11-24T15:23:52.692+00:00",
+    "category_id": "d6e4ee0c-4cde-44dc-9d23-63a2b7276d47",
+    "subcategory_id": null,
+    "category": {
+      "id": "d6e4ee0c-4cde-44dc-9d23-63a2b7276d47",
+      "name": "Repair Services",
+      "slug": "repair-services",
+      "image_url": "",
+      "is_active": true,
+      "created_at": "2026-11-24T14:44:27.148+00:00",
+      "updated_at": "2026-11-24T14:44:27.148+00:00",
+      "description": "",
+      "display_order": 1
+    },
+    "category_name": "Repair Services",
+    "category_slug": "repair-services",
+    "districts": [
+      {
+        "id": "loc-calicut",
+        "name": "Calicut",
+        "slug": "calicut",
+        "is_active": true,
+        "display_order": 1
+      },
+      {
+        "id": "loc-trivandrum",
+        "name": "Trivandrum",
+        "slug": "trivandrum",
+        "is_active": true,
+        "display_order": 2
+      },
+      {
+        "id": "loc-kochi",
+        "name": "Kochi",
+        "slug": "kochi",
+        "is_active": true,
+        "display_order": 3
+      },
+      {
+        "id": "loc-malappuram",
+        "name": "Malappuram",
+        "slug": "malappuram",
+        "is_active": true,
+        "display_order": 4
+      },
+      {
+        "id": "loc-thrissur",
+        "name": "Thrissur",
+        "slug": "thrissur",
+        "is_active": true,
+        "display_order": 5
+      },
+      {
+        "id": "loc-kannur",
+        "name": "Kannur",
+        "slug": "kannur",
+        "is_active": true,
+        "display_order": 6
+      }
+    ],
+    "district_ids": [
+      "loc-calicut",
+      "loc-trivandrum",
+      "loc-kochi",
+      "loc-malappuram",
+      "loc-thrissur",
+      "loc-kannur"
+    ]
+  },
+  {
+    "id": "1ffd22c4-b274-476c-b9aa-ae9e9260ca6b",
+    "name": "Ac Repair Updated",
+    "slug": "ac-repair",
+    "icon": "Wrench",
+    "short_description": "Test Ac repair description updated",
+    "full_description": null,
+    "main_image": "https://res.cloudinary.com/m8n2mi0k/image/upload/v1795532929/bellfix/uxs1qzffwibanmv6p6b9.jpg",
+    "additional_images": [],
+    "benefits": [
+      "Same-day service"
+    ],
+    "display_order": 1,
+    "is_active": true,
+    "created_at": "2026-11-24T15:08:55.602+00:00",
+    "updated_at": "2026-11-24T16:31:29.094+00:00",
+    "category_id": "d6e4ee0c-4cde-44dc-9d23-63a2b7276d47",
+    "subcategory_id": null,
+    "category": {
+      "id": "d6e4ee0c-4cde-44dc-9d23-63a2b7276d47",
+      "name": "Repair Services",
+      "slug": "repair-services",
+      "image_url": "",
+      "is_active": true,
+      "created_at": "2026-11-24T14:44:27.148+00:00",
+      "updated_at": "2026-11-24T14:44:27.148+00:00",
+      "description": "",
+      "display_order": 1
+    },
+    "category_name": "Repair Services",
+    "category_slug": "repair-services",
+    "districts": [
+      {
+        "id": "loc-trivandrum",
+        "name": "Trivandrum",
+        "slug": "trivandrum",
+        "is_active": true,
+        "display_order": 2
+      },
+      {
+        "id": "loc-kochi",
+        "name": "Kochi",
+        "slug": "kochi",
+        "is_active": true,
+        "display_order": 3
+      },
+      {
+        "id": "loc-malappuram",
+        "name": "Malappuram",
+        "slug": "malappuram",
+        "is_active": true,
+        "display_order": 4
+      },
+      {
+        "id": "loc-kannur",
+        "name": "Kannur",
+        "slug": "kannur",
+        "is_active": true,
+        "display_order": 6
+      }
+    ],
+    "district_ids": [
+      "loc-trivandrum",
+      "loc-kochi",
+      "loc-malappuram",
+      "loc-kannur"
+    ]
+  },
+  {
+    "id": "66b4c1b4-73f8-475a-9b63-c1bd7a662b8c",
+    "name": "Washing Machine",
+    "slug": "washing-machine",
+    "icon": "Disc",
+    "short_description": "Front-load and top-load repair, drum replacement, and drainage servicing.",
+    "full_description": "Restore smooth laundry cycles promptly. We diagnose electrical motor faults, water inlet issues, spinning noise, drain clogs, and control board malfunctions across all leading washing machine brands and models.",
+    "main_image": "https://images.unsplash.com/photo-1626806787461-102c1bfaaea1?q=80&w=1000&auto=format&fit=crop",
+    "additional_images": [
+      "https://images.unsplash.com/photo-1582735689369-4fe89db7114c?q=80&w=800&auto=format&fit=crop"
+    ],
+    "benefits": [
+      "Precision diagnostic equipment",
+      "Drum alignment & shock absorber fixes",
+      "Anti-vibration leveling service",
+      "90-day service warranty on repairs"
+    ],
+    "display_order": 2,
+    "is_active": true,
+    "created_at": "2026-11-24T09:26:24.330785+00:00",
+    "updated_at": "2026-11-24T09:26:24.330785+00:00",
+    "category_id": "d6e4ee0c-4cde-44dc-9d23-63a2b7276d47",
+    "subcategory_id": null,
+    "category": {
+      "id": "d6e4ee0c-4cde-44dc-9d23-63a2b7276d47",
+      "name": "Repair Services",
+      "slug": "repair-services",
+      "image_url": "",
+      "is_active": true,
+      "created_at": "2026-11-24T14:44:27.148+00:00",
+      "updated_at": "2026-11-24T14:44:27.148+00:00",
+      "description": "",
+      "display_order": 1
+    },
+    "category_name": "Repair Services",
+    "category_slug": "repair-services",
+    "districts": [
+      {
+        "id": "loc-calicut",
+        "name": "Calicut",
+        "slug": "calicut",
+        "is_active": true,
+        "display_order": 1
+      },
+      {
+        "id": "loc-trivandrum",
+        "name": "Trivandrum",
+        "slug": "trivandrum",
+        "is_active": true,
+        "display_order": 2
+      },
+      {
+        "id": "loc-kochi",
+        "name": "Kochi",
+        "slug": "kochi",
+        "is_active": true,
+        "display_order": 3
+      },
+      {
+        "id": "loc-malappuram",
+        "name": "Malappuram",
+        "slug": "malappuram",
+        "is_active": true,
+        "display_order": 4
+      },
+      {
+        "id": "loc-thrissur",
+        "name": "Thrissur",
+        "slug": "thrissur",
+        "is_active": true,
+        "display_order": 5
+      },
+      {
+        "id": "loc-kannur",
+        "name": "Kannur",
+        "slug": "kannur",
+        "is_active": true,
+        "display_order": 6
+      }
+    ],
+    "district_ids": [
+      "loc-calicut",
+      "loc-trivandrum",
+      "loc-kochi",
+      "loc-malappuram",
+      "loc-thrissur",
+      "loc-kannur"
+    ]
+  },
+  {
+    "id": "e05a632c-cb5b-427a-8a02-5ec76377795f",
+    "name": "Refrigerator",
+    "slug": "refrigerator",
+    "icon": "Refrigerator",
+    "short_description": "Cooling fault diagnostics, compressor fixes, thermostat repair, and gas refilling.",
+    "full_description": "Prevent food spoilage with immediate refrigerator maintenance. We resolve frost accumulation, strange noises, faulty door gaskets, capillary tube blocks, and thermostat inaccuracies with factory-grade tools.",
+    "main_image": "https://images.unsplash.com/photo-1584992236310-6edddc08acff?q=80&w=1000&auto=format&fit=crop",
+    "additional_images": [
+      "https://images.unsplash.com/photo-1571175443880-49e1d25b2bc5?q=80&w=800&auto=format&fit=crop"
+    ],
+    "benefits": [
+      "Certified refrigeration engineers",
+      "OEM compressor and fan replacements",
+      "Precise digital temperature calibration",
+      "Eco-friendly refrigerant recharge"
+    ],
+    "display_order": 3,
+    "is_active": true,
+    "created_at": "2026-11-24T09:26:24.330785+00:00",
+    "updated_at": "2026-11-24T09:26:24.330785+00:00",
+    "category_id": "d6e4ee0c-4cde-44dc-9d23-63a2b7276d47",
+    "subcategory_id": null,
+    "category": {
+      "id": "d6e4ee0c-4cde-44dc-9d23-63a2b7276d47",
+      "name": "Repair Services",
+      "slug": "repair-services",
+      "image_url": "",
+      "is_active": true,
+      "created_at": "2026-11-24T14:44:27.148+00:00",
+      "updated_at": "2026-11-24T14:44:27.148+00:00",
+      "description": "",
+      "display_order": 1
+    },
+    "category_name": "Repair Services",
+    "category_slug": "repair-services",
+    "districts": [
+      {
+        "id": "loc-calicut",
+        "name": "Calicut",
+        "slug": "calicut",
+        "is_active": true,
+        "display_order": 1
+      },
+      {
+        "id": "loc-trivandrum",
+        "name": "Trivandrum",
+        "slug": "trivandrum",
+        "is_active": true,
+        "display_order": 2
+      },
+      {
+        "id": "loc-kochi",
+        "name": "Kochi",
+        "slug": "kochi",
+        "is_active": true,
+        "display_order": 3
+      },
+      {
+        "id": "loc-malappuram",
+        "name": "Malappuram",
+        "slug": "malappuram",
+        "is_active": true,
+        "display_order": 4
+      },
+      {
+        "id": "loc-thrissur",
+        "name": "Thrissur",
+        "slug": "thrissur",
+        "is_active": true,
+        "display_order": 5
+      },
+      {
+        "id": "loc-kannur",
+        "name": "Kannur",
+        "slug": "kannur",
+        "is_active": true,
+        "display_order": 6
+      }
+    ],
+    "district_ids": [
+      "loc-calicut",
+      "loc-trivandrum",
+      "loc-kochi",
+      "loc-malappuram",
+      "loc-thrissur",
+      "loc-kannur"
+    ]
+  },
+  {
+    "id": "ece717f9-1fbd-4ada-93cc-2e1b89bcbd90",
+    "name": "Freezer",
+    "slug": "freezer",
+    "icon": "Snowflake",
+    "short_description": "Deep freezer servicing, defrosting issues, fan motor fixes, and insulation check.",
+    "full_description": "Ensure your commercial chest freezers and domestic upright freezers sustain optimal sub-zero temperatures. We inspect expansion valves, condenser coils, and seal integrity to prevent thawing.",
+    "main_image": "https://images.unsplash.com/photo-1585338107529-13afc5f02586?q=80&w=1000&auto=format&fit=crop",
+    "additional_images": [
+      "https://images.unsplash.com/photo-1584992236310-6edddc08acff?q=80&w=800&auto=format&fit=crop"
+    ],
+    "benefits": [
+      "Rapid cooling cycle restoration",
+      "Gasket and seal thermal testing",
+      "Low power consumption optimization",
+      "Scheduled maintenance contracts"
+    ],
+    "display_order": 4,
+    "is_active": true,
+    "created_at": "2026-11-24T09:26:24.330785+00:00",
+    "updated_at": "2026-11-24T09:26:24.330785+00:00",
+    "category_id": "d6e4ee0c-4cde-44dc-9d23-63a2b7276d47",
+    "subcategory_id": null,
+    "category": {
+      "id": "d6e4ee0c-4cde-44dc-9d23-63a2b7276d47",
+      "name": "Repair Services",
+      "slug": "repair-services",
+      "image_url": "",
+      "is_active": true,
+      "created_at": "2026-11-24T14:44:27.148+00:00",
+      "updated_at": "2026-11-24T14:44:27.148+00:00",
+      "description": "",
+      "display_order": 1
+    },
+    "category_name": "Repair Services",
+    "category_slug": "repair-services",
+    "districts": [
+      {
+        "id": "loc-calicut",
+        "name": "Calicut",
+        "slug": "calicut",
+        "is_active": true,
+        "display_order": 1
+      },
+      {
+        "id": "loc-trivandrum",
+        "name": "Trivandrum",
+        "slug": "trivandrum",
+        "is_active": true,
+        "display_order": 2
+      },
+      {
+        "id": "loc-kochi",
+        "name": "Kochi",
+        "slug": "kochi",
+        "is_active": true,
+        "display_order": 3
+      },
+      {
+        "id": "loc-malappuram",
+        "name": "Malappuram",
+        "slug": "malappuram",
+        "is_active": true,
+        "display_order": 4
+      },
+      {
+        "id": "loc-thrissur",
+        "name": "Thrissur",
+        "slug": "thrissur",
+        "is_active": true,
+        "display_order": 5
+      },
+      {
+        "id": "loc-kannur",
+        "name": "Kannur",
+        "slug": "kannur",
+        "is_active": true,
+        "display_order": 6
+      }
+    ],
+    "district_ids": [
+      "loc-calicut",
+      "loc-trivandrum",
+      "loc-kochi",
+      "loc-malappuram",
+      "loc-thrissur",
+      "loc-kannur"
+    ]
+  },
+  {
+    "id": "09c9304e-f49f-45c5-94db-2f91f2c438d0",
+    "name": "CCTV",
+    "slug": "cctv",
+    "icon": "Camera",
+    "short_description": "HD and IP camera installation, DVR/NVR configuration, and mobile remote access.",
+    "full_description": "Protect your family, villa, or commercial property around the clock. We provide end-to-end security camera cabling, high-definition IP camera placement, night-vision alignment, and smartphone live streaming setup.",
+    "main_image": "https://images.unsplash.com/photo-1557597774-9d273605dfa9?q=80&w=1000&auto=format&fit=crop",
+    "additional_images": [
+      "https://images.unsplash.com/photo-1580894732444-8ecded7900cd?q=80&w=800&auto=format&fit=crop"
+    ],
+    "benefits": [
+      "Full HD & 4K color night vision cameras",
+      "Concealed weatherproof cabling",
+      "Instant mobile viewing on iOS & Android",
+      "Hard drive backup and motion detection alerts"
+    ],
+    "display_order": 5,
+    "is_active": true,
+    "created_at": "2026-11-24T09:26:24.330785+00:00",
+    "updated_at": "2026-11-24T09:26:24.330785+00:00",
+    "category_id": "d6e4ee0c-4cde-44dc-9d23-63a2b7276d47",
+    "subcategory_id": null,
+    "category": {
+      "id": "d6e4ee0c-4cde-44dc-9d23-63a2b7276d47",
+      "name": "Repair Services",
+      "slug": "repair-services",
+      "image_url": "",
+      "is_active": true,
+      "created_at": "2026-11-24T14:44:27.148+00:00",
+      "updated_at": "2026-11-24T14:44:27.148+00:00",
+      "description": "",
+      "display_order": 1
+    },
+    "category_name": "Repair Services",
+    "category_slug": "repair-services",
+    "districts": [
+      {
+        "id": "loc-calicut",
+        "name": "Calicut",
+        "slug": "calicut",
+        "is_active": true,
+        "display_order": 1
+      },
+      {
+        "id": "loc-trivandrum",
+        "name": "Trivandrum",
+        "slug": "trivandrum",
+        "is_active": true,
+        "display_order": 2
+      },
+      {
+        "id": "loc-kochi",
+        "name": "Kochi",
+        "slug": "kochi",
+        "is_active": true,
+        "display_order": 3
+      },
+      {
+        "id": "loc-malappuram",
+        "name": "Malappuram",
+        "slug": "malappuram",
+        "is_active": true,
+        "display_order": 4
+      },
+      {
+        "id": "loc-thrissur",
+        "name": "Thrissur",
+        "slug": "thrissur",
+        "is_active": true,
+        "display_order": 5
+      },
+      {
+        "id": "loc-kannur",
+        "name": "Kannur",
+        "slug": "kannur",
+        "is_active": true,
+        "display_order": 6
+      }
+    ],
+    "district_ids": [
+      "loc-calicut",
+      "loc-trivandrum",
+      "loc-kochi",
+      "loc-malappuram",
+      "loc-thrissur",
+      "loc-kannur"
+    ]
+  },
+  {
+    "id": "8825151d-ba9e-493d-b624-7c79f68dbf3e",
+    "name": "Deep Cleaning",
+    "slug": "deep-cleaning",
+    "icon": "Sparkles",
+    "short_description": "Full home sanitization, kitchen degreasing, bathroom scrubbing, and upholstery care.",
+    "full_description": "Experience spotless luxury. Our intensive deep cleaning service cleans behind furniture, sanitizes tile grout, cleans kitchen extraction hoods, eliminates allergens, and details every corner of your home.",
+    "main_image": "https://images.unsplash.com/photo-1581578731548-c64695cc6952?q=80&w=1000&auto=format&fit=crop",
+    "additional_images": [
+      "https://images.unsplash.com/photo-1584820927498-cfe5211fd8bf?q=80&w=800&auto=format&fit=crop"
+    ],
+    "benefits": [
+      "Eco-friendly, non-toxic cleaning agents",
+      "High-power steam disinfection machines",
+      "Deep bathroom scale & mold removal",
+      "Thorough window & frame detailing"
+    ],
+    "display_order": 6,
+    "is_active": true,
+    "created_at": "2026-11-24T09:26:24.330785+00:00",
+    "updated_at": "2026-11-24T09:26:24.330785+00:00",
+    "category_id": "d0e767d6-9360-404c-bb7f-65339f0f1871",
+    "subcategory_id": null,
+    "category": {
+      "id": "d0e767d6-9360-404c-bb7f-65339f0f1871",
+      "name": "Cleaning Services",
+      "slug": "cleaning-services",
+      "image_url": "",
+      "is_active": true,
+      "created_at": "2026-11-24T14:44:41.198+00:00",
+      "updated_at": "2026-11-24T14:44:41.198+00:00",
+      "description": "",
+      "display_order": 2
+    },
+    "category_name": "Cleaning Services",
+    "category_slug": "cleaning-services",
+    "districts": [
+      {
+        "id": "loc-calicut",
+        "name": "Calicut",
+        "slug": "calicut",
+        "is_active": true,
+        "display_order": 1
+      },
+      {
+        "id": "loc-trivandrum",
+        "name": "Trivandrum",
+        "slug": "trivandrum",
+        "is_active": true,
+        "display_order": 2
+      },
+      {
+        "id": "loc-kochi",
+        "name": "Kochi",
+        "slug": "kochi",
+        "is_active": true,
+        "display_order": 3
+      },
+      {
+        "id": "loc-malappuram",
+        "name": "Malappuram",
+        "slug": "malappuram",
+        "is_active": true,
+        "display_order": 4
+      },
+      {
+        "id": "loc-thrissur",
+        "name": "Thrissur",
+        "slug": "thrissur",
+        "is_active": true,
+        "display_order": 5
+      },
+      {
+        "id": "loc-kannur",
+        "name": "Kannur",
+        "slug": "kannur",
+        "is_active": true,
+        "display_order": 6
+      }
+    ],
+    "district_ids": [
+      "loc-calicut",
+      "loc-trivandrum",
+      "loc-kochi",
+      "loc-malappuram",
+      "loc-thrissur",
+      "loc-kannur"
+    ]
+  },
+  {
+    "id": "b329b328-4e4c-411a-8967-d67c8bf357a7",
+    "name": "Interlock Cleaning",
+    "slug": "interlock-cleaning",
+    "icon": "Layers",
+    "short_description": "High-pressure jet washing, moss and weed removal, driveway re-sanding, and sealing.",
+    "full_description": "Bring your outdoor paving, driveway, and garden pathways back to brand-new condition. We blast away embedded oil stains, algae, and grime using industrial-grade high-pressure rotary cleaners.",
+    "main_image": "https://images.unsplash.com/photo-1590496793929-36417d3117de?q=80&w=1000&auto=format&fit=crop",
+    "additional_images": [
+      "https://images.unsplash.com/photo-1513694203232-719a280e022f?q=80&w=800&auto=format&fit=crop"
+    ],
+    "benefits": [
+      "Industrial 250+ bar pressure washing",
+      "Complete moss, weed & lichen eradication",
+      "Polymeric joint re-sanding",
+      "Protective anti-stain surface sealing"
+    ],
+    "display_order": 7,
+    "is_active": true,
+    "created_at": "2026-11-24T09:26:24.330785+00:00",
+    "updated_at": "2026-11-24T09:26:24.330785+00:00",
+    "category_id": "d0e767d6-9360-404c-bb7f-65339f0f1871",
+    "subcategory_id": null,
+    "category": {
+      "id": "d0e767d6-9360-404c-bb7f-65339f0f1871",
+      "name": "Cleaning Services",
+      "slug": "cleaning-services",
+      "image_url": "",
+      "is_active": true,
+      "created_at": "2026-11-24T14:44:41.198+00:00",
+      "updated_at": "2026-11-24T14:44:41.198+00:00",
+      "description": "",
+      "display_order": 2
+    },
+    "category_name": "Cleaning Services",
+    "category_slug": "cleaning-services",
+    "districts": [
+      {
+        "id": "loc-calicut",
+        "name": "Calicut",
+        "slug": "calicut",
+        "is_active": true,
+        "display_order": 1
+      },
+      {
+        "id": "loc-trivandrum",
+        "name": "Trivandrum",
+        "slug": "trivandrum",
+        "is_active": true,
+        "display_order": 2
+      },
+      {
+        "id": "loc-kochi",
+        "name": "Kochi",
+        "slug": "kochi",
+        "is_active": true,
+        "display_order": 3
+      },
+      {
+        "id": "loc-malappuram",
+        "name": "Malappuram",
+        "slug": "malappuram",
+        "is_active": true,
+        "display_order": 4
+      },
+      {
+        "id": "loc-thrissur",
+        "name": "Thrissur",
+        "slug": "thrissur",
+        "is_active": true,
+        "display_order": 5
+      },
+      {
+        "id": "loc-kannur",
+        "name": "Kannur",
+        "slug": "kannur",
+        "is_active": true,
+        "display_order": 6
+      }
+    ],
+    "district_ids": [
+      "loc-calicut",
+      "loc-trivandrum",
+      "loc-kochi",
+      "loc-malappuram",
+      "loc-thrissur",
+      "loc-kannur"
+    ]
+  },
+  {
+    "id": "4165e003-0cd6-4c6b-82ff-c9a958afdd95",
+    "name": "Water Tank Cleaning",
+    "slug": "water-tank-cleaning",
+    "icon": "Droplets",
+    "short_description": "Municipal-grade tank disinfection, sludge removal, and pure water testing.",
+    "full_description": "Safeguard your household water purity. Our municipality-compliant water tank sanitization eliminates sediment, bacteria, and biofilm from underground reservoirs and rooftop tanks using certified antibacterial agents.",
+    "main_image": "https://images.unsplash.com/photo-1504384308090-c894fdcc538d?q=80&w=1000&auto=format&fit=crop",
+    "additional_images": [
+      "https://images.unsplash.com/photo-1521207418485-99c705420785?q=80&w=800&auto=format&fit=crop"
+    ],
+    "benefits": [
+      "Complete submersible drainage & desludging",
+      "High-pressure scrub & chlorination treatment",
+      "Safe non-chemical residue rinse",
+      "Before-and-after photographic report"
+    ],
+    "display_order": 8,
+    "is_active": true,
+    "created_at": "2026-11-24T09:26:24.330785+00:00",
+    "updated_at": "2026-11-24T09:26:24.330785+00:00",
+    "category_id": "d0e767d6-9360-404c-bb7f-65339f0f1871",
+    "subcategory_id": null,
+    "category": {
+      "id": "d0e767d6-9360-404c-bb7f-65339f0f1871",
+      "name": "Cleaning Services",
+      "slug": "cleaning-services",
+      "image_url": "",
+      "is_active": true,
+      "created_at": "2026-11-24T14:44:41.198+00:00",
+      "updated_at": "2026-11-24T14:44:41.198+00:00",
+      "description": "",
+      "display_order": 2
+    },
+    "category_name": "Cleaning Services",
+    "category_slug": "cleaning-services",
+    "districts": [
+      {
+        "id": "loc-calicut",
+        "name": "Calicut",
+        "slug": "calicut",
+        "is_active": true,
+        "display_order": 1
+      },
+      {
+        "id": "loc-trivandrum",
+        "name": "Trivandrum",
+        "slug": "trivandrum",
+        "is_active": true,
+        "display_order": 2
+      },
+      {
+        "id": "loc-kochi",
+        "name": "Kochi",
+        "slug": "kochi",
+        "is_active": true,
+        "display_order": 3
+      },
+      {
+        "id": "loc-malappuram",
+        "name": "Malappuram",
+        "slug": "malappuram",
+        "is_active": true,
+        "display_order": 4
+      },
+      {
+        "id": "loc-thrissur",
+        "name": "Thrissur",
+        "slug": "thrissur",
+        "is_active": true,
+        "display_order": 5
+      },
+      {
+        "id": "loc-kannur",
+        "name": "Kannur",
+        "slug": "kannur",
+        "is_active": true,
+        "display_order": 6
+      }
+    ],
+    "district_ids": [
+      "loc-calicut",
+      "loc-trivandrum",
+      "loc-kochi",
+      "loc-malappuram",
+      "loc-thrissur",
+      "loc-kannur"
+    ]
+  }
+]

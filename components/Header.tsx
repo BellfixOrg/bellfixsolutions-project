@@ -22,8 +22,9 @@ interface HeaderProps {
   onOpenBooking?: () => void;
 }
 
-// Module-level navigation cache to prevent reloading/flicker across page navigations
+// Module-level navigation cache: keeps categories in memory across client page transitions without reloading
 let globalCachedCategories: ServiceCategory[] | null = null;
+let hasLoadedNavOnOpen = false;
 
 export default function Header({
   settings,
@@ -33,8 +34,17 @@ export default function Header({
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
-  // Initialize with initialCategories so server HTML matches client hydration perfectly
-  const [categories, setCategories] = useState<ServiceCategory[]>(initialCategories || []);
+  // Initialize with initialCategories or module cache so client navigation never flashes
+  const [categories, setCategories] = useState<ServiceCategory[]>(() => {
+    if (initialCategories && initialCategories.length > 0) {
+      globalCachedCategories = initialCategories;
+      return initialCategories;
+    }
+    if (globalCachedCategories && globalCachedCategories.length > 0) {
+      return globalCachedCategories;
+    }
+    return [];
+  });
 
   // Hover states for desktop cascading dropdowns (Category -> Service -> Locations)
   const [activeCategoryHover, setActiveCategoryHover] = useState<string | null>(null);
@@ -55,48 +65,61 @@ export default function Header({
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  // Fetch navigation hierarchy only once; hydration-safe caching
+  // Lock background scroll when mobile menu is open so hero section stays fixed in place
   useEffect(() => {
-    if (initialCategories && initialCategories.length > 0) {
-      setCategories(initialCategories);
-      try {
-        localStorage.setItem('bellfix_nav_categories', JSON.stringify(initialCategories));
-      } catch {}
-      return;
+    if (mobileMenuOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
     }
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [mobileMenuOpen]);
 
-    if (categories.length > 0) {
-      return;
-    }
-
-    try {
-      const stored = localStorage.getItem('bellfix_nav_categories');
-      if (stored) {
-        const parsed = JSON.parse(stored);
-        if (Array.isArray(parsed) && parsed.length > 0) {
-          setCategories(parsed);
-          return;
-        }
+  // Close mobile menu on desktop screen resize
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth >= 768 && mobileMenuOpen) {
+        setMobileMenuOpen(false);
       }
+    };
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, [mobileMenuOpen]);
+
+  // Fetch navigation once when website is opened; smooth without reloads across page changes
+  useEffect(() => {
+    // Purge any old frozen localStorage cache that prevented admin service updates
+    try {
+      localStorage.removeItem('bellfix_nav_categories');
     } catch {}
 
-    let isMounted = true;
-    fetch('/api/navigation')
-      .then((res) => res.json())
-      .then((data) => {
-        if (isMounted && data.success && Array.isArray(data.data) && data.data.length > 0) {
-          try {
-            localStorage.setItem('bellfix_nav_categories', JSON.stringify(data.data));
-          } catch {}
-          setCategories(data.data);
-        }
-      })
-      .catch((err) => console.error('Failed to load navigation hierarchy:', err));
+    if (initialCategories && initialCategories.length > 0) {
+      setCategories(initialCategories);
+      globalCachedCategories = initialCategories;
+    }
 
-    return () => {
-      isMounted = false;
-    };
-  }, [initialCategories, categories.length]);
+    // When website is opened or refreshed, load fresh navigation hierarchy once
+    if (!hasLoadedNavOnOpen || categories.length === 0) {
+      hasLoadedNavOnOpen = true;
+      let isMounted = true;
+
+      fetch('/api/navigation', { cache: 'no-store' })
+        .then((res) => res.json())
+        .then((data) => {
+          if (isMounted && data.success && Array.isArray(data.data) && data.data.length > 0) {
+            setCategories(data.data);
+            globalCachedCategories = data.data;
+          }
+        })
+        .catch((err) => console.error('Failed to load navigation hierarchy:', err));
+
+      return () => {
+        isMounted = false;
+      };
+    }
+  }, [initialCategories]);
 
   // When clicking a location inside a service dropdown
   const handleLocationClick = (
@@ -121,8 +144,17 @@ export default function Header({
 
   return (
     <>
+      {/* Dimmed backdrop when mobile menu is open */}
+      <div
+        className={`fixed inset-0 bg-black/40 backdrop-blur-xs z-40 md:hidden transition-opacity duration-300 ${
+          mobileMenuOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'
+        }`}
+        onClick={() => setMobileMenuOpen(false)}
+        aria-hidden="true"
+      />
+
       <header
-        className={`sticky top-0 z-40 transition-all duration-200 bg-white ${
+        className={`sticky top-0 z-50 transition-all duration-200 bg-white relative ${
           isScrolled ? 'shadow-sm py-3.5' : 'py-4.5'
         }`}
       >
@@ -317,9 +349,14 @@ export default function Header({
           </div>
         </div>
 
-        {/* Mobile Dropdown & Accordion Menu */}
-        {mobileMenuOpen && (
-          <div className="md:hidden bg-white shadow-xl px-5 pt-3 pb-6 mt-3 space-y-3 max-h-[80vh] overflow-y-auto">
+        {/* Mobile Dropdown & Accordion Menu: Absolute overlay beneath header so hero section position never changes */}
+        <div
+          className={`absolute top-full left-0 right-0 md:hidden bg-white shadow-2xl border-t border-gray-100 px-5 pt-3 pb-6 space-y-3 max-h-[calc(100vh-80px)] overflow-y-auto z-50 transition-all duration-300 ease-out origin-top ${
+            mobileMenuOpen
+              ? 'opacity-100 translate-y-0 scale-y-100 pointer-events-auto visible'
+              : 'opacity-0 -translate-y-2 scale-y-98 pointer-events-none invisible'
+          }`}
+        >
             {/* Home */}
             <Link
               href="/"
@@ -454,7 +491,6 @@ export default function Header({
               )}
             </div>
           </div>
-        )}
       </header>
     </>
   );

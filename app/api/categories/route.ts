@@ -1,5 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { revalidatePath } from 'next/cache';
 import { getServiceCategories, saveServiceCategory } from '@/lib/db';
+
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
 
 export async function GET(req: NextRequest) {
   try {
@@ -29,6 +33,13 @@ export async function POST(req: NextRequest) {
     }
 
     const saved = await saveServiceCategory(body);
+
+    try {
+      revalidatePath('/', 'layout');
+      revalidatePath('/services', 'layout');
+      revalidatePath('/api/navigation');
+    } catch {}
+
     return NextResponse.json({ success: true, data: saved });
   } catch (error: any) {
     console.error('Failed to save category:', error);
