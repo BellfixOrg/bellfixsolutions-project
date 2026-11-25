@@ -75,8 +75,18 @@ export default async function DynamicCategoryServicePage({ params, searchParams 
 
       <main className="flex-1">
         {/* Breadcrumb Navigation & Hero Header */}
-        <div className="bg-[#101820] text-white py-12 sm:py-16">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="relative text-white py-12 sm:py-16 overflow-hidden bg-[#101820]">
+          {service.cover_image && (
+            <>
+              <div
+                className="absolute inset-0 bg-cover bg-center z-0"
+                style={{ backgroundImage: `url(${service.cover_image})` }}
+              />
+              {/* Black gradient on content side only */}
+              <div className="absolute inset-0 bg-gradient-to-t md:bg-gradient-to-r from-black/95 via-black/85 md:via-black/70 to-transparent z-0" />
+            </>
+          )}
+          <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             {/* Breadcrumb Trail */}
             <nav className="flex items-center gap-2 text-xs text-gray-400 mb-6 flex-wrap font-medium">
               <Link href="/" className="hover:text-white transition-colors">
@@ -118,9 +128,9 @@ export default async function DynamicCategoryServicePage({ params, searchParams 
 
         {/* Content Layout */}
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-16">
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-10 lg:gap-12">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10">
             {/* Main Service Details */}
-            <div className="lg:col-span-2 space-y-10">
+            <div className="lg:col-span-7 space-y-10">
               {/* Main Service Image */}
               <div className="relative aspect-[16/9] w-full rounded-2xl overflow-hidden bg-[#F5F8FA] shadow-sm">
                 <Image
@@ -220,7 +230,7 @@ export default async function DynamicCategoryServicePage({ params, searchParams 
             </div>
 
             {/* Right Booking Sidebar */}
-            <aside className="space-y-6">
+            <aside className="lg:col-span-5 space-y-6">
               {/* Booking Card */}
               <div className="bg-[#F5F8FA] p-6 sm:p-7 rounded-2xl shadow-sm space-y-5 sticky top-28">
                 <div>

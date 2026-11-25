@@ -24,7 +24,7 @@ export default function CategoryServiceSections({
   const activeCategories = categories.filter((c) => c.is_active);
 
   return (
-    <section className="py-14 sm:py-20 bg-white" id="services">
+    <section className="py-6 sm:py-10 bg-white" id="services">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-16 sm:space-y-24">
         {/* Categories Loop: Repair Services, Cleaning Services, etc. */}
         {activeCategories.length === 0 ? (

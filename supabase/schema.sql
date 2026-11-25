@@ -117,6 +117,7 @@ CREATE TABLE IF NOT EXISTS public.services (
     short_description TEXT NOT NULL,
     full_description TEXT,
     main_image TEXT NOT NULL,
+    cover_image TEXT,
     additional_images JSONB DEFAULT '[]'::jsonb,
     benefits JSONB DEFAULT '[]'::jsonb,
     display_order INTEGER DEFAULT 1,
@@ -125,7 +126,7 @@ CREATE TABLE IF NOT EXISTS public.services (
     updated_at TIMESTAMPTZ DEFAULT NOW()
 );
 
--- Ensure subcategory_id exists if services table was created previously
+-- Ensure subcategory_id and cover_image exist if services table was created previously
 DO $$
 BEGIN
     IF NOT EXISTS (
@@ -133,6 +134,13 @@ BEGIN
         WHERE table_schema = 'public' AND table_name = 'services' AND column_name = 'subcategory_id'
     ) THEN
         ALTER TABLE public.services ADD COLUMN subcategory_id UUID REFERENCES public.subcategories(id) ON DELETE SET NULL;
+    END IF;
+
+    IF NOT EXISTS (
+        SELECT 1 FROM information_schema.columns 
+        WHERE table_schema = 'public' AND table_name = 'services' AND column_name = 'cover_image'
+    ) THEN
+        ALTER TABLE public.services ADD COLUMN cover_image TEXT;
     END IF;
 END $$;
 

@@ -14,6 +14,8 @@ import {
   MessageSquareQuote,
   Info,
   HelpCircle,
+  Tag,
+  BookOpen,
   ExternalLink,
   LogOut,
   X,
@@ -65,6 +67,8 @@ export default function AdminSidebar({ isOpen, onClose }: AdminSidebarProps) {
       title: 'Content Management',
       items: [
         { name: 'Hero Banners', href: '/admin/banners', icon: ImageIcon },
+        { name: 'Brand Logos', href: '/admin/brands', icon: Tag },
+        { name: 'Blog Posts', href: '/admin/blogs', icon: BookOpen },
         { name: 'Why Choose Us', href: '/admin/why-choose-us', icon: HelpCircle },
         { name: 'Testimonials', href: '/admin/testimonials', icon: MessageSquareQuote },
         { name: 'About Page', href: '/admin/about', icon: Info },

@@ -3,6 +3,7 @@ import path from 'path';
 import {
   Banner,
   Booking,
+  Brand,
   DashboardStats,
   District,
   Service,
@@ -952,6 +953,7 @@ export async function saveService(
     short_description: service.short_description,
     full_description: service.full_description || null,
     main_image: service.main_image,
+    cover_image: service.cover_image || null,
     additional_images: Array.isArray(service.additional_images) ? service.additional_images : [],
     benefits: Array.isArray(service.benefits) ? service.benefits : [],
     display_order: Number(service.display_order) || 1,
@@ -963,20 +965,43 @@ export async function saveService(
     const client = getAdminClient();
     if (client) {
       if (service.id) {
-        const { data, error } = await client
+        let { data, error } = await client
           .from('services')
           .update(servicePayload)
           .eq('id', service.id)
           .select()
           .single();
 
+        if (error && (error.code === 'PGRST204' || error.message.includes('cover_image'))) {
+          const { cover_image, ...withoutCover } = servicePayload;
+          const fallbackRes = await client
+            .from('services')
+            .update(withoutCover)
+            .eq('id', service.id)
+            .select()
+            .single();
+          data = fallbackRes.data;
+          error = fallbackRes.error;
+        }
+
         if (!error && data) savedService = data as Service;
       } else {
-        const { data, error } = await client
+        let { data, error } = await client
           .from('services')
           .insert({ ...servicePayload, created_at: now })
           .select()
           .single();
+
+        if (error && (error.code === 'PGRST204' || error.message.includes('cover_image'))) {
+          const { cover_image, ...withoutCover } = servicePayload;
+          const fallbackRes = await client
+            .from('services')
+            .insert({ ...withoutCover, created_at: now })
+            .select()
+            .single();
+          data = fallbackRes.data;
+          error = fallbackRes.error;
+        }
 
         if (!error && data) savedService = data as Service;
       }
@@ -1043,6 +1068,10 @@ export async function saveService(
     localList.push(finalService);
   }
   writeLocalServices(localList);
+
+  if (savedService && service.cover_image) {
+    savedService.cover_image = service.cover_image;
+  }
 
   return savedService || finalService;
 }
@@ -1598,3 +1627,15 @@ export async function deleteWhyChooseUsItem(id: string): Promise<boolean> {
   await saveWhyChooseUsData({ items: filtered });
   return true;
 }
+
+// -----------------------------------------------------------------------------
+// BRANDS (WE REPAIR ALL BRANDS)
+// -----------------------------------------------------------------------------
+export * from './brands';
+
+// -----------------------------------------------------------------------------
+// BLOG POSTS
+// -----------------------------------------------------------------------------
+export * from './blogs';
+
+
