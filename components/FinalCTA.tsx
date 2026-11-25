@@ -14,7 +14,7 @@ export default function FinalCTA({ settings }: FinalCTAProps) {
     : '919778215489';
 
   return (
-    <section className="py-12 sm:py-16 bg-white">
+    <section className="py-12 sm:py-10 bg-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="rounded-2xl bg-[#1c71cd] text-white p-8 sm:p-12 lg:p-14 flex flex-col lg:flex-row lg:items-center lg:justify-between gap-8 shadow-sm">
           {/* Left Side: Text Content */}

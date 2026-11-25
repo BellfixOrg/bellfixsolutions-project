@@ -117,6 +117,7 @@ CREATE TABLE IF NOT EXISTS public.services (
     short_description TEXT NOT NULL,
     full_description TEXT,
     main_image TEXT NOT NULL,
+    cover_image TEXT,
     additional_images JSONB DEFAULT '[]'::jsonb,
     benefits JSONB DEFAULT '[]'::jsonb,
     display_order INTEGER DEFAULT 1,
@@ -125,7 +126,7 @@ CREATE TABLE IF NOT EXISTS public.services (
     updated_at TIMESTAMPTZ DEFAULT NOW()
 );
 
--- Ensure subcategory_id exists if services table was created previously
+-- Ensure subcategory_id and cover_image exist if services table was created previously
 DO $$
 BEGIN
     IF NOT EXISTS (
@@ -133,6 +134,13 @@ BEGIN
         WHERE table_schema = 'public' AND table_name = 'services' AND column_name = 'subcategory_id'
     ) THEN
         ALTER TABLE public.services ADD COLUMN subcategory_id UUID REFERENCES public.subcategories(id) ON DELETE SET NULL;
+    END IF;
+
+    IF NOT EXISTS (
+        SELECT 1 FROM information_schema.columns 
+        WHERE table_schema = 'public' AND table_name = 'services' AND column_name = 'cover_image'
+    ) THEN
+        ALTER TABLE public.services ADD COLUMN cover_image TEXT;
     END IF;
 END $$;
 
@@ -408,4 +416,73 @@ ON CONFLICT (id) DO UPDATE SET
     answer = EXCLUDED.answer,
     display_order = EXCLUDED.display_order,
     is_active = EXCLUDED.is_active;
+
+-- ==========================================================
+-- BRANDS TABLE (WE REPAIR ALL BRANDS)
+-- ==========================================================
+CREATE TABLE IF NOT EXISTS public.brands (
+    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    name TEXT NOT NULL DEFAULT 'Brand',
+    logo_url TEXT NOT NULL,
+    display_order INTEGER DEFAULT 1,
+    is_active BOOLEAN DEFAULT TRUE,
+    created_at TIMESTAMPTZ DEFAULT NOW(),
+    updated_at TIMESTAMPTZ DEFAULT NOW()
+);
+
+-- Enable RLS
+ALTER TABLE public.brands ENABLE ROW LEVEL SECURITY;
+
+-- Allow public read access for active brands
+CREATE POLICY "Allow public read access on active brands"
+    ON public.brands FOR SELECT
+    USING (is_active = TRUE);
+
+-- Allow service role full access
+CREATE POLICY "Allow service role full access on brands"
+    ON public.brands FOR ALL
+    USING (TRUE)
+    WITH CHECK (TRUE);
+
+-- Indexes
+CREATE INDEX IF NOT EXISTS idx_brands_display_order ON public.brands(display_order);
+CREATE INDEX IF NOT EXISTS idx_brands_is_active ON public.brands(is_active);
+
+-- ==========================================================
+-- BLOG POSTS TABLE
+-- ==========================================================
+CREATE TABLE IF NOT EXISTS public.blog_posts (
+    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    title TEXT NOT NULL,
+    category TEXT NOT NULL DEFAULT 'Repair Tips',
+    read_time TEXT DEFAULT '4 min read',
+    excerpt TEXT NOT NULL,
+    content TEXT NOT NULL,
+    date TEXT DEFAULT 'Recent',
+    image_url TEXT,
+    display_order INTEGER DEFAULT 1,
+    is_active BOOLEAN DEFAULT TRUE,
+    created_at TIMESTAMPTZ DEFAULT NOW(),
+    updated_at TIMESTAMPTZ DEFAULT NOW()
+);
+
+-- Enable RLS
+ALTER TABLE public.blog_posts ENABLE ROW LEVEL SECURITY;
+
+-- Allow public read access for active blogs
+CREATE POLICY "Allow public read access on active blogs"
+    ON public.blog_posts FOR SELECT
+    USING (is_active = TRUE);
+
+-- Allow service role full access
+CREATE POLICY "Allow service role full access on blogs"
+    ON public.blog_posts FOR ALL
+    USING (TRUE)
+    WITH CHECK (TRUE);
+
+-- Indexes
+CREATE INDEX IF NOT EXISTS idx_blog_posts_display_order ON public.blog_posts(display_order);
+CREATE INDEX IF NOT EXISTS idx_blog_posts_is_active ON public.blog_posts(is_active);
+
+
 

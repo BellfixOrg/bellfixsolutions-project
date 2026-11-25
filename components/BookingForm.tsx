@@ -10,6 +10,7 @@ interface BookingFormProps {
   categories?: ServiceCategory[];
   districts?: District[];
   selectedServiceName?: string;
+  initialLocation?: string;
   onSuccess?: () => void;
 }
 
@@ -19,13 +20,14 @@ export default function BookingForm({
   categories,
   districts,
   selectedServiceName,
+  initialLocation,
   onSuccess,
 }: BookingFormProps) {
   const [formData, setFormData] = useState({
     customer_name: '',
     phone: '',
     service_name: selectedServiceName || (services[0]?.name ?? ''),
-    location: '',
+    location: initialLocation || '',
     preferred_date: '',
     message: '',
   });
@@ -35,6 +37,12 @@ export default function BookingForm({
   const [isSuccess, setIsSuccess] = useState(false);
   const [whatsappRedirectUrl, setWhatsappRedirectUrl] = useState('');
   const [liveSettings, setLiveSettings] = useState<SiteSettings | null>(settings || null);
+
+  useEffect(() => {
+    if (initialLocation) {
+      setFormData((prev) => ({ ...prev, location: initialLocation }));
+    }
+  }, [initialLocation]);
 
   useEffect(() => {
     const tomorrow = new Date();
@@ -300,6 +308,7 @@ Please confirm availability and dispatch details. Thank you!`;
           <input
             type="text"
             name="location"
+            list="booking-available-districts"
             value={formData.location}
             onChange={handleChange}
             placeholder="Enter location or address"
@@ -307,6 +316,13 @@ Please confirm availability and dispatch details. Thank you!`;
             required
             disabled={isLoading}
           />
+          {districts && districts.length > 0 && (
+            <datalist id="booking-available-districts">
+              {districts.map((d) => (
+                <option key={d.id} value={d.name} />
+              ))}
+            </datalist>
+          )}
         </div>
       </div>
 

@@ -1,0 +1,36 @@
+[
+  {
+    "id": "blog-1",
+    "title": "How Often Should You Service Your Air Conditioner?",
+    "category": "Repair Tips",
+    "read_time": "4 min read",
+    "date": "November 2026",
+    "excerpt": "Regular filter cleaning and timely gas checks prevent unexpected breakdowns and reduce electricity bills significantly.",
+    "content": "Regular air conditioner maintenance is critical to ensuring optimal cooling performance, lower energy consumption, and prolonged compressor life.\n\n### Recommended Service Frequency\n- **Routine Filter Cleaning:** Every 4 to 6 weeks during high-usage peak seasons to prevent dust accumulation.\n- **Full Professional Tune-up:** At least twice a year (before summer and after heavy use periods).\n- **Refrigerant & Pressure Checks:** Annually to prevent compressor strain.\n\n### Benefits of Routine Servicing\n1. **Lower Energy Bills:** Clean cooling coils and unobstructed filters can reduce electricity consumption by up to 25%.\n2. **Improved Indoor Air Quality:** Professional cleaning eliminates mildew, bacterial spores, and allergen buildup in the air ducts.\n3. **Extended System Lifespan:** Catching small refrigerant leaks or electrical contact wear early prevents costly compressor failure.\n\nOur certified technicians at Bell Fix & Solutions provide comprehensive diagnostic checklists covering condenser coil chemical wash, blower wheel deep cleaning, electrical terminal tightening, and temperature differential testing.",
+    "display_order": 1,
+    "is_active": true
+  },
+  {
+    "id": "blog-2",
+    "title": "Top Signs Your Washing Machine Needs Urgent Repair",
+    "category": "Appliance Care",
+    "read_time": "3 min read",
+    "date": "November 2026",
+    "excerpt": "Excessive vibration, water leakage, or drum grinding noises indicate mechanical issues that require certified technician attention.",
+    "content": "A malfunctioning washing machine can turn daily household routines upside down and risk water damage to your floors. Recognizing early warning signs helps you avoid catastrophic failures and expensive motor replacements.\n\n### Warning Signs to Watch For\n- **Loud Grinding or Thumping Sounds:** Often caused by worn drum bearings, loose drive pulleys, or broken suspension dampers.\n- **Unusual Vibrations and Shaking:** When the washer 'walks' across the floor, it typically points to degraded shock absorbers or an unbalanced drum mount.\n- **Water Leaks Around the Base:** Can stem from cracked drain hoses, loose inlet valves, or worn door bellows gaskets.\n- **Slow or Incomplete Draining:** Usually caused by a clogged pump impeller, coin trap obstruction, or failing drain pump motor.\n\nIf you notice any of these symptoms, avoid running further cycles and book a prompt diagnostic inspection with our certified technician crew.",
+    "display_order": 2,
+    "is_active": true
+  },
+  {
+    "id": "blog-3",
+    "title": "Why Deep Water Tank Cleaning is Crucial for Family Health",
+    "category": "Cleaning Services",
+    "read_time": "5 min read",
+    "date": "November 2026",
+    "excerpt": "Sludge buildup and bacterial growth in residential water tanks can cause water contamination. Learn how professional sanitization protects your family.",
+    "content": "Water tanks in residential buildings and villas continuously accumulate dirt, dust particles, mineral deposits, and microscopic biological contaminants over time.\n\n### The Hidden Hazards of Neglected Tanks\n- **Sludge and Silt Accumulation:** Settles at the bottom of the tank, creating an ideal breeding ground for bacteria.\n- **Biofilm and Algae Growth:** Forms along interior walls and pipelines, degrading water quality and causing foul odors.\n- **Skin and Gastrointestinal Health Risks:** Contaminated tap water used for bathing, tooth brushing, and cooking can cause severe skin irritation, rashes, and waterborne illnesses.\n\n### Our Professional 6-Stage Sanitization Method\n1. Complete tank dewatering and sludge extraction.\n2. High-pressure mechanical rotary scrubbing of walls and ceiling.\n3. Industrial vacuum suction of residual slurry.\n4. Food-grade anti-bacterial disinfection.\n5. High-intensity UV sterilization.\n6. Fresh water refill and pH/cleanliness verification.\n\nWe recommend sanitizing residential water tanks every 6 months to guarantee completely safe and hygienic water for your family.",
+    "display_order": 3,
+    "is_active": true
+  }
+]
+

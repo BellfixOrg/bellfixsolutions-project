@@ -34,24 +34,9 @@ export default async function AboutPage() {
       <Header settings={settings} categories={categories} />
 
       <main className="flex-1">
-        {/* Hero Header */}
-        <div className="bg-[#101820] text-white py-14 sm:py-20">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center max-w-3xl">
-            <span className="text-xs font-bold uppercase tracking-widest text-[#1c71cd] mb-2 block">
-              DEDICATED TO EXCELLENCE
-            </span>
-            <h1 className="text-3xl sm:text-4xl font-bold text-white tracking-tight mb-3">
-              About Bell Fix & Solutions
-            </h1>
-            <p className="text-xs sm:text-sm text-gray-300 leading-relaxed">
-              We deliver honest, skilled, and guaranteed home repair and cleaning solutions right to your doorstep.
-            </p>
-          </div>
-        </div>
-
         {/* Narrative & Visual Section */}
         {settings && (
-          <section className="py-16 sm:py-20 bg-white">
+          <section className="py-6 sm:py-10 bg-white">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
                 <div className="relative aspect-[4/3] rounded-xl overflow-hidden shadow-sm">

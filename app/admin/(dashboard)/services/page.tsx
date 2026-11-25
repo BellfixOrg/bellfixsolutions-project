@@ -55,6 +55,7 @@ export default function AdminServicesPage() {
     short_description: '',
     full_description: '',
     main_image: '',
+    cover_image: '',
     benefits: [''],
     display_order: 1,
     is_active: true,
@@ -118,6 +119,7 @@ export default function AdminServicesPage() {
       short_description: '',
       full_description: '',
       main_image: '',
+      cover_image: '',
       benefits: ['Same-day service', 'Guaranteed workmanship'],
       display_order: services.length + 1,
       is_active: true,
@@ -144,6 +146,7 @@ export default function AdminServicesPage() {
       short_description: service.short_description,
       full_description: service.full_description || '',
       main_image: service.main_image,
+      cover_image: service.cover_image || '',
       benefits: service.benefits && service.benefits.length > 0 ? service.benefits : [''],
       display_order: service.display_order ?? 1,
       is_active: service.is_active ?? true,
@@ -602,6 +605,13 @@ export default function AdminServicesPage() {
             value={formData.main_image}
             onChange={(url) => setFormData({ ...formData, main_image: url })}
             label="Service Image *"
+          />
+
+          {/* Cover / Header Background Image */}
+          <ImageUploader
+            value={formData.cover_image}
+            onChange={(url) => setFormData({ ...formData, cover_image: url })}
+            label="Cover Background Image (Optional - displays as header background on service page)"
           />
 
           {/* Service Icon */}

@@ -29,7 +29,7 @@ export default function HowItWorks() {
   ];
 
   return (
-    <section className="py-16 sm:py-20 bg-white">
+    <section className="py-6 sm:py-10 bg-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
         <div className="text-center max-w-2xl mx-auto mb-12 sm:mb-16">
@@ -58,12 +58,9 @@ export default function HowItWorks() {
                 {/* Step Icon Badge */}
                 <div className="w-9 h-9 sm:w-12 sm:h-12 rounded-full bg-white text-[#1c71cd] flex items-center justify-center mb-2.5 sm:mb-4 relative z-10 group-hover:bg-[#1c71cd] group-hover:text-white transition-colors duration-300 shadow-xs border border-gray-100">
                   <Icon className="w-4 h-4 sm:w-5.5 sm:h-5.5 stroke-[2]" />
-                  <span className="absolute -top-1 -right-1 w-3.5 h-3.5 sm:w-4.5 sm:h-4.5 rounded-full bg-[#101820] text-white text-[8px] sm:text-[9px] font-bold flex items-center justify-center shadow-xs">
-                    {step.number}
-                  </span>
                 </div>
 
-                <h3 className="text-[11px] sm:text-sm lg:text-[15px] font-semibold text-[#101820] mb-1 sm:mb-2 tracking-tight font-heading leading-tight">
+                <h3 className="text-xs sm:text-sm lg:text-[15px] font-semibold text-[#101820] mb-1 sm:mb-2 tracking-tight font-heading leading-tight whitespace-nowrap">
                   {step.title}
                 </h3>
                 <p className="text-[10px] sm:text-xs text-[#667085] leading-snug sm:leading-relaxed max-w-xs font-body">

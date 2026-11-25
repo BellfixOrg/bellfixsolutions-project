@@ -94,6 +94,7 @@ export interface Service {
   short_description: string;
   full_description?: string;
   main_image: string;
+  cover_image?: string;
   additional_images?: string[];
   benefits?: string[];
   display_order: number;
@@ -166,4 +167,29 @@ export interface WhyChooseUsSection {
   description?: string;
   image_url: string;
   items: WhyChooseUsItem[];
+}
+
+export interface Brand {
+  id: string;
+  name: string;
+  logo_url: string;
+  display_order: number;
+  is_active: boolean;
+  created_at?: string;
+  updated_at?: string;
+}
+
+export interface BlogPost {
+  id: string;
+  title: string;
+  category: string;
+  read_time?: string;
+  excerpt: string;
+  content: string;
+  date?: string;
+  image_url?: string;
+  display_order?: number;
+  is_active?: boolean;
+  created_at?: string;
+  updated_at?: string;
 }

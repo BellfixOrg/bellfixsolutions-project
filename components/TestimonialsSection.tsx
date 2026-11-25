@@ -68,7 +68,7 @@ export default function TestimonialsSection({ testimonials }: TestimonialsSectio
   );
 
   return (
-    <section className="py-16 sm:py-20 bg-white overflow-hidden">
+    <section className="py-6 sm:py-10 bg-white overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
         <div className="text-center max-w-2xl mx-auto mb-12 sm:mb-16">
