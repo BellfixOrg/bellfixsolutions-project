@@ -1,0 +1,44 @@
+[
+  {
+    "id": "loc-calicut",
+    "name": "Calicut",
+    "slug": "calicut",
+    "is_active": true,
+    "display_order": 1
+  },
+  {
+    "id": "loc-trivandrum",
+    "name": "Trivandrum",
+    "slug": "trivandrum",
+    "is_active": true,
+    "display_order": 2
+  },
+  {
+    "id": "loc-kochi",
+    "name": "Kochi",
+    "slug": "kochi",
+    "is_active": true,
+    "display_order": 3
+  },
+  {
+    "id": "loc-malappuram",
+    "name": "Malappuram",
+    "slug": "malappuram",
+    "is_active": true,
+    "display_order": 4
+  },
+  {
+    "id": "loc-thrissur",
+    "name": "Thrissur",
+    "slug": "thrissur",
+    "is_active": true,
+    "display_order": 5
+  },
+  {
+    "id": "loc-kannur",
+    "name": "Kannur",
+    "slug": "kannur",
+    "is_active": true,
+    "display_order": 6
+  }
+]

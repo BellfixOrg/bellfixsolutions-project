@@ -1,0 +1,37 @@
+{
+  "heading": "Why Choose Us",
+  "subheading": "ADVANTAGES",
+  "description": "We go beyond just service — we deliver trust, quality, and long-term support for your home.",
+  "image_url": "https://images.unsplash.com/photo-1621905251189-08b45d6a269e?q=80&w=1200&auto=format&fit=crop",
+  "items": [
+    {
+      "id": "item-1",
+      "question": "Expert & Certified Technicians",
+      "answer": "Our skilled, verified professionals have years of hands-on experience across appliance repair, electrical systems, and home maintenance. We ensure precision diagnosis and safe, lasting repairs on every visit.",
+      "display_order": 1,
+      "is_active": true
+    },
+    {
+      "id": "item-2",
+      "question": "Quick & Punctual Doorstep Service",
+      "answer": "We value your schedule. Our rapid-dispatch technicians arrive promptly with fully equipped tools and authentic parts to resolve your problems without unnecessary delays.",
+      "display_order": 2,
+      "is_active": true
+    },
+    {
+      "id": "item-3",
+      "question": "Transparent Pricing & Authentic Parts",
+      "answer": "No surprise fees or hidden charges. We provide upfront, fair pricing before beginning any repair work, using only genuine, manufacturer-backed replacement components.",
+      "display_order": 3,
+      "is_active": true
+    },
+    {
+      "id": "item-4",
+      "question": "Safe, Reliable & Satisfaction Guaranteed",
+      "answer": "Your complete peace of mind and home safety are our highest priorities. All our work is backed by a satisfaction warranty and friendly post-service support.",
+      "display_order": 4,
+      "is_active": true
+    }
+  ]
+}
+

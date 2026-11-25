@@ -1,26 +1,184 @@
 @import "tailwindcss";
 
+@theme {
+  --font-heading: 'Montserrat', sans-serif;
+  --font-body: 'Open Sans', sans-serif;
+  --color-primary-black: #101820;
+  --color-deep-navy: #102A43;
+  --color-navy-dark: #0B1D30;
+  --color-electric-cyan: #1c71cd;
+  --color-cyan-hover: #165ba4;
+  --color-light-bg: #F5F8FA;
+  --color-card-bg: #FFFFFF;
+  --color-text-secondary: #667085;
+  --color-text-primary: #101820;
+}
+
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --primary-black: #101820;
+  --deep-navy: #102A43;
+  --electric-cyan: #1c71cd;
+  --light-bg: #F5F8FA;
+  --text-secondary: #667085;
+  --font-montserrat: 'Montserrat', sans-serif;
+  --font-open-sans: 'Open Sans', sans-serif;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html {
+  scroll-behavior: smooth;
+  font-size: 16px;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background-color: #FFFFFF;
+  color: #101820;
+  font-family: 'Open Sans', sans-serif;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 1.6;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Headings (H1-H3): Montserrat, semi-bold (600) */
+h1, h2, h3, .font-heading {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 600;
+  letter-spacing: -0.015em;
+}
+
+/* H1: 40px (28px on mobile) */
+h1 {
+  font-size: 28px;
+  line-height: 1.25;
+}
+@media (min-width: 640px) {
+  h1 {
+    font-size: 40px;
+    line-height: 1.25;
+  }
+}
+
+/* H2: 32px (24px on mobile) */
+h2 {
+  font-size: 24px;
+  line-height: 1.3;
+}
+@media (min-width: 640px) {
+  h2 {
+    font-size: 32px;
+    line-height: 1.35;
+  }
+}
+
+/* H3: 24px (20px on mobile) */
+h3 {
+  font-size: 20px;
+  line-height: 1.35;
+}
+@media (min-width: 640px) {
+  h3 {
+    font-size: 24px;
+    line-height: 1.4;
+  }
+}
+
+/* Buttons and navigation: Open Sans, semi-bold (600) */
+button,
+input[type="submit"],
+input[type="button"],
+.btn,
+nav,
+nav a,
+header a,
+.font-nav {
+  font-family: 'Open Sans', sans-serif;
+  font-weight: 600;
+}
+
+/* Ensure no borders on cards and containers per design rules */
+.no-border,
+.service-card,
+.feature-card,
+.testimonial-card,
+.stat-card {
+  border: none !important;
+  outline: none !important;
+}
+
+/* Custom subtle scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: #F5F8FA;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #CBD5E1;
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #94A3B8;
+}
+
+/* Header Dropdown & Cascading Submenu Animations */
+@keyframes dropdownSlideDown {
+  0% {
+    opacity: 0;
+    transform: translateY(-8px) scale(0.97);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes flyoutSlideRight {
+  0% {
+    opacity: 0;
+    transform: translateX(-8px) scale(0.98);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0) scale(1);
+  }
+}
+
+.animate-dropdown-menu {
+  animation: dropdownSlideDown 0.22s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  transform-origin: top left;
+  will-change: transform, opacity;
+}
+
+.animate-flyout-submenu {
+  animation: flyoutSlideRight 0.18s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  transform-origin: top left;
+  will-change: transform, opacity;
+}
+
+/* Continuous Marquee Ticker (Right to Left) */
+@keyframes marqueeScroll {
+  0% {
+    transform: translate3d(0, 0, 0);
+  }
+  100% {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+
+.animate-marquee {
+  display: flex !important;
+  flex-direction: row !important;
+  flex-wrap: nowrap !important;
+  width: max-content !important;
+  animation: marqueeScroll 25s linear infinite;
+  will-change: transform;
+}
+
+.animate-marquee:hover {
+  animation-play-state: paused;
 }
