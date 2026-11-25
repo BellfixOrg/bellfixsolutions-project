@@ -5,9 +5,6 @@ export const metadata: Metadata = {
   title: 'BELL FIX & SOLUTIONS – Professional Home Services',
   description:
     'Reliable home maintenance, AC repair, washing machine, refrigerator, water tank cleaning, CCTV, and deep cleaning services delivered right to your doorstep.',
-  icons: {
-    icon: '/favicon.ico',
-  },
 };
 
 export default function RootLayout({
