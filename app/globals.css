@@ -248,3 +248,9 @@ header a,
   }
 }
 
+
+/* Smaller placeholder text on mobile & desktop (typed value stays 16px on mobile to avoid iOS zoom) */
+input::placeholder,
+textarea::placeholder {
+  font-size: 12px !important;
+}
