@@ -94,27 +94,6 @@ To deploy to your Supabase project:
 
 ---
 
-## ⚙️ Environment Variables (`.env.local`)
-
-Copy `.env.example` to `.env.local` and set your credentials:
-
-```bash
-# Supabase
-NEXT_PUBLIC_SUPABASE_URL=https://your-project.supabase.co
-NEXT_PUBLIC_SUPABASE_ANON_KEY=your-anon-key
-SUPABASE_SERVICE_ROLE_KEY=your-service-role-key
-
-# Cloudinary
-CLOUDINARY_CLOUD_NAME=your-cloud-name
-CLOUDINARY_API_KEY=your-api-key
-CLOUDINARY_API_SECRET=your-api-secret
-
-# Admin Fallback Password
-ADMIN_SECRET_PASSWORD=admin123
-```
-
----
-
 ## 🛠️ Development & Production
 
 ```bash
