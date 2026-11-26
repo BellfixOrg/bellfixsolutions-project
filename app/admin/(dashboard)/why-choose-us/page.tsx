@@ -198,7 +198,7 @@ export default function AdminWhyChooseUsPage() {
   );
 
   return (
-    <div className="max-w-5xl space-y-8">
+    <div className=" space-y-8">
       {/* Page Header */}
       <div>
         <h2 className="text-xl font-bold text-[#101820] tracking-tight">

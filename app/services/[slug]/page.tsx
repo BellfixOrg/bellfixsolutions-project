@@ -422,7 +422,7 @@ export default async function ServiceDetailPage({
 
       <Footer settings={settings} services={allServices} />
       {settings?.whatsapp_number && (
-        <FloatingWhatsApp whatsappNumber={settings.whatsapp_number} />
+        <FloatingWhatsApp settings={settings} />
       )}
     </div>
   );

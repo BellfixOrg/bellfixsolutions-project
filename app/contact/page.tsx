@@ -175,7 +175,7 @@ export default async function ContactPage() {
 
       <Footer settings={settings} services={services} />
       {settings?.whatsapp_number && (
-        <FloatingWhatsApp whatsappNumber={settings.whatsapp_number} />
+        <FloatingWhatsApp settings={settings} />
       )}
     </div>
   );
