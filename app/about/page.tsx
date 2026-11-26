@@ -106,7 +106,7 @@ export default async function AboutPage() {
 
       <Footer settings={settings} services={services} />
       {settings?.whatsapp_number && (
-        <FloatingWhatsApp whatsappNumber={settings.whatsapp_number} />
+        <FloatingWhatsApp settings={settings} />
       )}
     </div>
   );

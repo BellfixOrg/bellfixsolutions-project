@@ -2,35 +2,43 @@
   "heading": "Why Choose Us",
   "subheading": "ADVANTAGES",
   "description": "We go beyond just service — we deliver trust, quality, and long-term support for your home.",
-  "image_url": "https://res.cloudinary.com/m8n2mi0k/image/upload/v1795606115/why-choose-us/iamozw9esjdaw61ukfaj.jpg",
+  "image_url": "https://res.cloudinary.com/txoznw4s/image/upload/v1795675956/why-choose-us/uzhahk7sadlgq5yf20rc.jpg",
   "items": [
     {
       "id": "item-1",
       "question": "Expert & Certified Technicians",
       "answer": "Our skilled, verified professionals have years of hands-on experience across appliance repair, electrical systems, and home maintenance. We ensure precision diagnosis and safe, lasting repairs on every visit.",
       "display_order": 1,
-      "is_active": true
+      "is_active": true,
+      "created_at": "2026-11-25T06:40:23.020528+00:00",
+      "updated_at": "2026-11-25T06:40:23.020528+00:00"
     },
     {
       "id": "item-2",
       "question": "Quick & Punctual Doorstep Service",
       "answer": "We value your schedule. Our rapid-dispatch technicians arrive promptly with fully equipped tools and authentic parts to resolve your problems without unnecessary delays.",
       "display_order": 2,
-      "is_active": true
+      "is_active": true,
+      "created_at": "2026-11-25T06:40:23.020528+00:00",
+      "updated_at": "2026-11-25T06:40:23.020528+00:00"
     },
     {
       "id": "item-3",
       "question": "Transparent Pricing & Authentic Parts",
       "answer": "No surprise fees or hidden charges. We provide upfront, fair pricing before beginning any repair work, using only genuine, manufacturer-backed replacement components.",
       "display_order": 3,
-      "is_active": true
+      "is_active": true,
+      "created_at": "2026-11-25T06:40:23.020528+00:00",
+      "updated_at": "2026-11-25T06:40:23.020528+00:00"
     },
     {
       "id": "item-4",
       "question": "Safe, Reliable & Satisfaction Guaranteed",
       "answer": "Your complete peace of mind and home safety are our highest priorities. All our work is backed by a satisfaction warranty and friendly post-service support.",
       "display_order": 4,
-      "is_active": true
+      "is_active": true,
+      "created_at": "2026-11-25T06:40:23.020528+00:00",
+      "updated_at": "2026-11-25T06:40:23.020528+00:00"
     }
   ]
 }

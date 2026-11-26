@@ -25,21 +25,21 @@ export default function ServiceCard({ service, onBookNow }: ServiceCardProps) {
       </Link>
 
       {/* Card Content Footer with #F5F8FA background */}
-      <div className="p-4 sm:p-5 flex items-center justify-between gap-3 flex-1 bg-[#F5F8FA]">
-        <div className="flex items-center gap-3">
+      <div className="p-2.5 sm:p-5 flex items-center justify-between gap-2 sm:gap-3 flex-1 bg-[#F5F8FA]">
+        <div className="flex items-center gap-3 min-w-0">
           {/* Crisp Icon Badge */}
-          <div className="w-9 h-9 rounded-md bg-white text-[#1c71cd] shadow-2xs flex items-center justify-center shrink-0">
+          <div className="hidden sm:flex w-9 h-9 rounded-md bg-white text-[#1c71cd] shadow-2xs items-center justify-center shrink-0">
             <ServiceIcon name={service.icon} className="w-5 h-5" />
           </div>
 
-          <div>
+          <div className="min-w-0">
             <Link
               href={`/services/${service.slug}`}
-              className="text-sm font-bold text-[#101820] hover:text-[#1c71cd] transition-colors line-clamp-1"
+              className="text-xs sm:text-sm font-bold text-[#101820] hover:text-[#1c71cd] transition-colors line-clamp-2 sm:line-clamp-1"
             >
               {service.name}
             </Link>
-            <p className="text-[11px] text-[#667085] line-clamp-1 mt-0.5">
+            <p className="hidden sm:block text-[11px] text-[#667085] line-clamp-1 mt-0.5">
               {service.short_description}
             </p>
           </div>
@@ -49,7 +49,7 @@ export default function ServiceCard({ service, onBookNow }: ServiceCardProps) {
         {onBookNow ? (
           <button
             onClick={() => onBookNow(service.name)}
-            className="w-8 h-8 rounded-full bg-white text-[#1c71cd] group-hover:bg-[#1c71cd] group-hover:text-white shadow-2xs flex items-center justify-center transition-all shrink-0 cursor-pointer"
+            className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-white text-[#1c71cd] group-hover:bg-[#1c71cd] group-hover:text-white shadow-2xs flex items-center justify-center transition-all shrink-0 cursor-pointer"
             title={`Book ${service.name}`}
             aria-label={`Book ${service.name}`}
           >
@@ -58,7 +58,7 @@ export default function ServiceCard({ service, onBookNow }: ServiceCardProps) {
         ) : (
           <Link
             href={`/services/${service.slug}`}
-            className="w-8 h-8 rounded-full bg-white text-[#1c71cd] group-hover:bg-[#1c71cd] group-hover:text-white shadow-2xs flex items-center justify-center transition-all shrink-0"
+            className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-white text-[#1c71cd] group-hover:bg-[#1c71cd] group-hover:text-white shadow-2xs flex items-center justify-center transition-all shrink-0"
             title={`View ${service.name}`}
             aria-label={`View ${service.name}`}
           >
