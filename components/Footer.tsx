@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
-import { Phone, Mail, MapPin, MessageSquare, ArrowRight, ChevronDown } from 'lucide-react';
+import { Phone, Mail, MapPin, MessageSquare, ChevronDown } from 'lucide-react';
 import Logo from './Logo';
 import { Service, SiteSettings } from '@/types';
 
@@ -87,8 +87,8 @@ export default function Footer({ settings, services }: FooterProps) {
             <ul className="space-y-2.5 text-xs text-gray-400">
               {quickLinks.map((link) => (
                 <li key={link.href}>
-                  <Link href={link.href} className="hover:text-[#1c71cd] transition-colors flex items-center gap-1.5">
-                    <ArrowRight className="w-3 h-3 text-[#1c71cd]" /> {link.label}
+                  <Link href={link.href} className="hover:text-[#1c71cd] transition-colors">
+                    {link.label}
                   </Link>
                 </li>
               ))}
@@ -108,9 +108,9 @@ export default function Footer({ settings, services }: FooterProps) {
                   <li key={service.id}>
                     <Link
                       href={`/services/${service.slug}`}
-                      className="hover:text-[#1c71cd] transition-colors flex items-center gap-1.5"
+                      className="hover:text-[#1c71cd] transition-colors"
                     >
-                      <ArrowRight className="w-3 h-3 text-[#1c71cd]" /> {service.name}
+                      {service.name}
                     </Link>
                   </li>
                 ))}
@@ -238,9 +238,9 @@ export default function Footer({ settings, services }: FooterProps) {
                       <li key={link.href}>
                         <Link
                           href={link.href}
-                          className="hover:text-[#1c71cd] transition-colors flex items-center gap-1.5"
+                          className="hover:text-[#1c71cd] transition-colors"
                         >
-                          <ArrowRight className="w-3 h-3 text-[#1c71cd]" /> {link.label}
+                          {link.label}
                         </Link>
                       </li>
                     ))}
@@ -282,9 +282,9 @@ export default function Footer({ settings, services }: FooterProps) {
                         <li key={service.id}>
                           <Link
                             href={`/services/${service.slug}`}
-                            className="hover:text-[#1c71cd] transition-colors flex items-center gap-1.5"
+                            className="hover:text-[#1c71cd] transition-colors"
                           >
-                            <ArrowRight className="w-3 h-3 text-[#1c71cd]" /> {service.name}
+                            {service.name}
                           </Link>
                         </li>
                       ))}
@@ -367,7 +367,17 @@ export default function Footer({ settings, services }: FooterProps) {
         ========================================= */}
         <div className="pt-6 sm:border-t border-gray-800/60 flex flex-col sm:flex-row items-center justify-between text-[11px] text-gray-500 gap-3">
           <p>© {new Date().getFullYear()} {settings?.business_name || 'BELL FIX & SOLUTIONS'}. All rights reserved.</p>
-          <p>Delivering excellence across residential and commercial properties.</p>
+          <p>
+            Crafted by{' '}
+            <a
+              href="https://www.ekodrix.com/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-gray-400 hover:text-white transition-colors"
+            >
+              Ekodrix
+            </a>
+          </p>
         </div>
       </div>
     </footer>
