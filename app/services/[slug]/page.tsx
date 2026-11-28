@@ -374,7 +374,7 @@ export default async function ServiceDetailPage({
             {/* Main Service Details (7 Cols) */}
             <div className="lg:col-span-7 space-y-10">
               {/* Main Image */}
-              <div className="relative aspect-[16/10] w-full rounded-xl overflow-hidden shadow-sm">
+              <div className="relative aspect-[16/11] w-full rounded-xl overflow-hidden shadow-sm">
                 <Image
                   src={service.main_image}
                   alt={service.name}
@@ -445,23 +445,22 @@ export default async function ServiceDetailPage({
                 </div>
               )}
 
-              {/* Quality Guarantee Badges */}
-              <div className="grid grid-cols-3 gap-3 bg-[#F5F8FA] p-5 rounded-xl no-border text-center">
-                <div className="flex flex-col items-center">
+              <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+                <div className="flex flex-col items-center bg-[#F5F8FA] border border-gray-200 rounded-xl p-4">
                   <ShieldCheck className="w-5 h-5 text-[#1c71cd] mb-1.5" />
-                  <span className="text-xs font-bold text-[#101820]">
+                  <span className="text-xs font-bold text-[#101820] text-center">
                     Warranty Covered
                   </span>
                 </div>
-                <div className="flex flex-col items-center">
+                <div className="flex flex-col items-center bg-[#F5F8FA] border border-gray-200 rounded-xl p-4">
                   <Clock className="w-5 h-5 text-[#1c71cd] mb-1.5" />
-                  <span className="text-xs font-bold text-[#101820]">
+                  <span className="text-xs font-bold text-[#101820] text-center">
                     Punctual Arrival
                   </span>
                 </div>
-                <div className="flex flex-col items-center">
+                <div className="flex flex-col items-center bg-[#F5F8FA] border border-gray-200 rounded-xl p-4 col-span-2 sm:col-span-1">
                   <Award className="w-5 h-5 text-[#1c71cd] mb-1.5" />
-                  <span className="text-xs font-bold text-[#101820]">
+                  <span className="text-xs font-bold text-[#101820] text-center">
                     Certified Crew
                   </span>
                 </div>
@@ -501,7 +500,7 @@ export default async function ServiceDetailPage({
 
             {/* Sticky Sidebar: Booking Form (5 Cols) */}
             <div className="lg:col-span-5">
-              <div className="sticky top-24 bg-white p-6 sm:p-7 rounded-xl shadow-md no-border">
+              <div className="sticky top-24 bg-white p-3 sm:p-7 rounded-xl shadow-md no-border">
                 <span className="text-xs font-bold uppercase tracking-widest text-[#1c71cd] block mb-1">
                   INSTANT APPOINTMENT
                 </span>
