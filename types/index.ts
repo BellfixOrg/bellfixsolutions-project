@@ -181,6 +181,7 @@ export interface Brand {
 
 export interface BlogPost {
   id: string;
+  slug?: string;
   title: string;
   category: string;
   read_time?: string;

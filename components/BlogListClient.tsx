@@ -1,8 +1,10 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { Calendar, Clock, ArrowRight, X, BookOpen, MessageCircle } from 'lucide-react';
+import Link from 'next/link';
+import { Calendar, Clock, ArrowRight, X, BookOpen, MessageCircle, ExternalLink } from 'lucide-react';
 import { BlogPost, SiteSettings } from '@/types';
+import { getBlogSlug } from '@/lib/site';
 
 interface BlogListClientProps {
   blogs: BlogPost[];
@@ -67,9 +69,11 @@ export default function BlogListClient({ blogs, settings }: BlogListClientProps)
                     </div>
                   </div>
 
-                  <h3 className="text-sm sm:text-[15px] font-bold text-[#101820] mb-2 leading-snug group-hover:text-[#1c71cd] transition-colors">
-                    {post.title}
-                  </h3>
+                  <Link href={`/blog/${getBlogSlug(post)}`} className="block group/link">
+                    <h3 className="text-sm sm:text-[15px] font-bold text-[#101820] mb-2 leading-snug group-hover/link:text-[#1c71cd] transition-colors">
+                      {post.title}
+                    </h3>
+                  </Link>
 
                   <p className="text-xs text-[#667085] leading-relaxed mb-5 line-clamp-3">
                     {post.excerpt}
@@ -82,14 +86,24 @@ export default function BlogListClient({ blogs, settings }: BlogListClientProps)
                     <span>{post.date || 'Recent'}</span>
                   </div>
 
-                  {/* Read More Button opens full details popup */}
-                  <button
-                    onClick={() => setSelectedBlog(post)}
-                    className="inline-flex items-center gap-1 text-[11px] font-bold text-[#1c71cd] hover:text-[#165ba4] hover:underline cursor-pointer transition-colors"
-                  >
-                    <span>Read More</span>
-                    <ArrowRight className="w-3 h-3 group-hover:translate-x-0.5 transition-transform" />
-                  </button>
+                  {/* Dual Action: Quick View Modal + Standalone HTML Link */}
+                  <div className="flex items-center gap-2.5">
+                    <button
+                      type="button"
+                      onClick={() => setSelectedBlog(post)}
+                      className="inline-flex items-center gap-1 text-[11px] font-bold text-[#1c71cd] hover:text-[#165ba4] hover:underline cursor-pointer transition-colors"
+                    >
+                      <span>Quick View</span>
+                    </button>
+                    <span className="text-gray-300 text-xs">·</span>
+                    <Link
+                      href={`/blog/${getBlogSlug(post)}`}
+                      className="inline-flex items-center gap-1 text-[11px] font-bold text-[#101820] hover:text-[#1c71cd] transition-colors"
+                    >
+                      <span>Read More</span>
+                      <ArrowRight className="w-3 h-3 group-hover:translate-x-0.5 transition-transform" />
+                    </Link>
+                  </div>
                 </div>
               </article>
             ))}
@@ -162,6 +176,13 @@ export default function BlogListClient({ blogs, settings }: BlogListClientProps)
               </span>
 
               <div className="flex items-center gap-2 w-full sm:w-auto">
+                <Link
+                  href={`/blog/${getBlogSlug(selectedBlog)}`}
+                  className="inline-flex items-center justify-center gap-1 px-3.5 py-2 bg-white hover:bg-gray-50 text-[#101820] text-xs font-bold rounded-lg border border-gray-200 transition-colors w-full sm:w-auto"
+                >
+                  <ExternalLink className="w-3.5 h-3.5 text-[#1c71cd]" />
+                  <span>Full Article</span>
+                </Link>
                 {cleanWhatsApp && (
                   <a
                     href={`https://wa.me/${cleanWhatsApp}?text=${encodeURIComponent(
