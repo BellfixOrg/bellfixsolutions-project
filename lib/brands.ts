@@ -1,144 +1,68 @@
-import fs from 'fs';
-import path from 'path';
 import { Brand } from '@/types';
 import { getAdminClient } from './supabase/admin';
 
-const BRANDS_FILE = path.join(process.cwd(), 'data', 'brands.json');
-
-export function readLocalBrands(): Brand[] {
-  try {
-    if (fs.existsSync(BRANDS_FILE)) {
-      const content = fs.readFileSync(BRANDS_FILE, 'utf-8');
-      const parsed = JSON.parse(content);
-      if (Array.isArray(parsed) && parsed.length > 0) return parsed;
-    }
-  } catch (err) {
-    console.error('Error reading local brands:', err);
+function getClientOrThrow() {
+  const client = getAdminClient();
+  if (!client) {
+    throw new Error(
+      'Supabase is not configured. Please ensure NEXT_PUBLIC_SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY are set in .env.local.'
+    );
   }
-  return [];
-}
-
-export function writeLocalBrands(brands: Brand[]): void {
-  try {
-    const dir = path.dirname(BRANDS_FILE);
-    if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
-    fs.writeFileSync(BRANDS_FILE, JSON.stringify(brands, null, 2), 'utf-8');
-  } catch (err) {
-    console.error('Error writing local brands:', err);
-  }
+  return client;
 }
 
 export async function getBrands(onlyActive = true): Promise<Brand[]> {
-  try {
-    const client = getAdminClient();
-    if (client) {
-      let query = client.from('brands').select('*').order('display_order', { ascending: true });
-      if (onlyActive) {
-        query = query.eq('is_active', true);
-      }
-      const { data, error } = await query;
-      if (!error && Array.isArray(data) && data.length > 0) {
-        return data as Brand[];
-      }
-    }
-  } catch (err) {
-    console.warn('Supabase getBrands error, using local fallback:', err);
+  const client = getClientOrThrow();
+  let query = client.from('brands').select('*').order('display_order', { ascending: true });
+  if (onlyActive) {
+    query = query.eq('is_active', true);
   }
 
-  const localList = readLocalBrands();
-  return onlyActive ? localList.filter((b) => b.is_active) : localList;
+  const { data, error } = await query;
+  if (error) {
+    console.error('Database error in getBrands:', error.message);
+    throw new Error(`Failed to load brands: ${error.message}`);
+  }
+
+  return (data as Brand[]) || [];
 }
 
 export async function saveBrand(
   brand: Partial<Brand> & { logo_url: string; name?: string }
 ): Promise<Brand> {
-  const client = getAdminClient();
+  const client = getClientOrThrow();
   const now = new Date().toISOString();
-  let savedBrand: Brand | null = null;
 
-  try {
-    if (client) {
-      if (brand.id && !brand.id.startsWith('brand-')) {
-        const { data, error } = await client
-          .from('brands')
-          .update({
-            name: brand.name || 'Brand',
-            logo_url: brand.logo_url,
-            display_order: brand.display_order ?? 1,
-            is_active: brand.is_active ?? true,
-            updated_at: now,
-          })
-          .eq('id', brand.id)
-          .select()
-          .maybeSingle();
+  const payload = {
+    name: brand.name || 'Brand',
+    logo_url: brand.logo_url,
+    display_order: brand.display_order ?? 1,
+    is_active: brand.is_active ?? true,
+    updated_at: now,
+  };
 
-        if (!error && data) savedBrand = data as Brand;
-      } else {
-        const { data, error } = await client
-          .from('brands')
-          .insert({
-            name: brand.name || 'Brand',
-            logo_url: brand.logo_url,
-            display_order: brand.display_order ?? 1,
-            is_active: brand.is_active ?? true,
-            created_at: now,
-            updated_at: now,
-          })
-          .select()
-          .maybeSingle();
+  const { data, error } = brand.id
+    ? await client.from('brands').update(payload).eq('id', brand.id).select().single()
+    : await client
+        .from('brands')
+        .insert({ ...payload, created_at: now })
+        .select()
+        .single();
 
-        if (!error && data) savedBrand = data as Brand;
-      }
-    }
-  } catch (err) {
-    console.warn('Supabase saveBrand error, using local storage:', err);
+  if (error) {
+    console.error('Supabase error saving brand:', error.message);
+    throw new Error(`Failed to save brand: ${error.message}`);
   }
 
-  // Update local file
-  const localList = readLocalBrands();
-  if (brand.id) {
-    const idx = localList.findIndex((b) => b.id === brand.id);
-    if (idx !== -1) {
-      savedBrand = {
-        ...localList[idx],
-        ...brand,
-        name: brand.name || localList[idx].name || 'Brand',
-        updated_at: now,
-      } as Brand;
-      localList[idx] = savedBrand;
-    }
-  }
-
-  if (!savedBrand) {
-    savedBrand = {
-      id: brand.id || `brand-${Date.now()}`,
-      name: brand.name || 'Brand',
-      logo_url: brand.logo_url,
-      display_order: brand.display_order ?? localList.length + 1,
-      is_active: brand.is_active ?? true,
-      created_at: now,
-      updated_at: now,
-    };
-    localList.push(savedBrand);
-  }
-
-  writeLocalBrands(localList);
-  return savedBrand;
+  return data as Brand;
 }
 
 export async function deleteBrand(id: string): Promise<boolean> {
-  try {
-    const client = getAdminClient();
-    if (client && !id.startsWith('brand-')) {
-      await client.from('brands').delete().eq('id', id);
-    }
-  } catch (err) {
-    console.warn('Supabase deleteBrand error, proceeding with local delete:', err);
+  const client = getClientOrThrow();
+  const { error } = await client.from('brands').delete().eq('id', id);
+  if (error) {
+    console.error('Supabase error deleting brand:', error.message);
+    throw new Error(`Failed to delete brand: ${error.message}`);
   }
-
-  const localList = readLocalBrands();
-  const filtered = localList.filter((b) => b.id !== id);
-  writeLocalBrands(filtered);
   return true;
 }
-

@@ -39,7 +39,7 @@ export default function ServiceCard({ service, onBookNow }: ServiceCardProps) {
             >
               {service.name}
             </Link>
-            <p className="hidden sm:block text-[11px] text-[#667085] line-clamp-1 mt-0.5">
+            <p className="hidden sm:line-clamp-2 text-[11px] text-[#667085] mt-0.5">
               {service.short_description}
             </p>
           </div>
