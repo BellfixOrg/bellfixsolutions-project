@@ -215,7 +215,7 @@ export default function Header({
                       {isCatOpen && serviceList.length > 0 && (
                         <div className="absolute left-0 top-full pt-1.5 z-50 animate-dropdown-menu">
                           <div
-                            className="bg-white border-t-2 border-[#1c71cd] shadow-xl rounded-b-md w-[230px] sm:w-[250px] py-2 relative"
+                            className="bg-white border-t-2 border-[#1c71cd] shadow-xl rounded-b-md min-w-[230px] py-2 relative"
                             onMouseLeave={() => setActiveServiceHover(null)}
                           >
                             {serviceList.map((service) => {
@@ -240,7 +240,7 @@ export default function Header({
                                         : 'text-[#101820] hover:text-[#1c71cd] hover:bg-[#F5F8FA] font-medium'
                                     }`}
                                   >
-                                    <span className="truncate pr-3">{service.name}</span>
+                                    <span className="pr-3 whitespace-nowrap">{service.name}</span>
                                     <ChevronRight
                                       className={`w-3.5 h-3.5 shrink-0 transition-transform duration-150 ${
                                         isServActive ? 'text-[#1c71cd] translate-x-0.5' : 'text-gray-400'

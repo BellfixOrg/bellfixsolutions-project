@@ -86,24 +86,13 @@ export default function BlogListClient({ blogs, settings }: BlogListClientProps)
                     <span>{post.date || 'Recent'}</span>
                   </div>
 
-                  {/* Dual Action: Quick View Modal + Standalone HTML Link */}
-                  <div className="flex items-center gap-2.5">
-                    <button
-                      type="button"
-                      onClick={() => setSelectedBlog(post)}
-                      className="inline-flex items-center gap-1 text-[11px] font-bold text-[#1c71cd] hover:text-[#165ba4] hover:underline cursor-pointer transition-colors"
-                    >
-                      <span>Quick View</span>
-                    </button>
-                    <span className="text-gray-300 text-xs">·</span>
-                    <Link
-                      href={`/blog/${getBlogSlug(post)}`}
-                      className="inline-flex items-center gap-1 text-[11px] font-bold text-[#101820] hover:text-[#1c71cd] transition-colors"
-                    >
-                      <span>Read More</span>
-                      <ArrowRight className="w-3 h-3 group-hover:translate-x-0.5 transition-transform" />
-                    </Link>
-                  </div>
+                  <Link
+                    href={`/blog/${getBlogSlug(post)}`}
+                    className="inline-flex items-center gap-1 text-[11px] font-bold text-[#101820] hover:text-[#1c71cd] transition-colors"
+                  >
+                    <span>Read More</span>
+                    <ArrowRight className="w-3 h-3 group-hover:translate-x-0.5 transition-transform" />
+                  </Link>
                 </div>
               </article>
             ))}

@@ -132,7 +132,7 @@ export default async function BlogDetailPage({ params }: PageProps) {
             aria-label="Breadcrumb"
             className="bg-[#F8FAFC] border-b border-gray-100 py-3"
           >
-            <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
               <ol className="flex items-center flex-wrap gap-1.5 text-xs text-gray-500">
                 <li>
                   <Link
@@ -165,7 +165,7 @@ export default async function BlogDetailPage({ params }: PageProps) {
 
           {/* Article Header & Hero */}
           <header className="bg-[#101820] text-white py-12 sm:py-16">
-            <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
               <div className="flex items-center flex-wrap gap-3 mb-4">
                 <span className="text-xs font-bold uppercase tracking-wider text-white bg-[#1c71cd] px-3 py-1 rounded-full shadow-2xs">
                   {post.category}
@@ -191,7 +191,7 @@ export default async function BlogDetailPage({ params }: PageProps) {
           </header>
 
           {/* Article Content Container */}
-          <article className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-14">
+          <article className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-14">
             {/* Optional Featured Image */}
             {post.image_url && (
               <div className="relative aspect-[16/9] w-full rounded-2xl overflow-hidden mb-10 shadow-sm border border-gray-100">
@@ -230,7 +230,7 @@ export default async function BlogDetailPage({ params }: PageProps) {
                   return (
                     <h2
                       key={idx}
-                      className="text-lg sm:text-xl font-bold text-[#101820] pt-4 pb-1 border-b border-gray-100"
+                      className="text-md sm:text-xl font-bold text-[#101820] pt-4 pb-1 border-b border-gray-100"
                     >
                       {headingText}
                     </h2>
