@@ -66,7 +66,7 @@ export default async function BlogPage() {
             <span className="inline-block text-xs font-bold uppercase tracking-widest text-[#1c71cd] mb-3 px-3.5 py-1.5 rounded-full">
               Latest Insights & Advice
             </span>
-            <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight mb-4">
+            <h1 className="text-2xl sm:text-4xl font-bold tracking-tight mb-4">
               Blog & Appliance Care Guides
             </h1>
             <p className="text-xs sm:text-sm text-gray-300 max-w-2xl mx-auto leading-relaxed">
