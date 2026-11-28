@@ -197,11 +197,11 @@ export default function Header({
                       }}
                     >
                       {/* Category Nav Trigger */}
-                      <button
+                      <Link
+                        href={`/services/${category.slug}`}
                         className={`flex items-center gap-1.5 text-sm font-bold tracking-wide transition-colors py-3 cursor-pointer ${
                           isCatActive ? 'text-[#1c71cd]' : 'text-[#101820] hover:text-[#1c71cd]'
                         }`}
-                        onClick={() => router.push(`/services/${category.slug}`)}
                       >
                         <span>{category.name}</span>
                         <ChevronDown
@@ -209,7 +209,7 @@ export default function Header({
                             isCatOpen ? 'rotate-180 text-[#1c71cd]' : 'text-[#101820]'
                           }`}
                         />
-                      </button>
+                      </Link>
 
                       {/* Dropdown Menu with smooth entry animation */}
                       {isCatOpen && serviceList.length > 0 && (
@@ -228,11 +228,11 @@ export default function Header({
                                   onMouseEnter={() => setActiveServiceHover(service.id)}
                                 >
                                   {/* Service Item Row */}
-                                  <div
+                                  <Link
+                                    href={`/services/${service.slug}`}
                                     onClick={() => {
                                       setActiveCategoryHover(null);
                                       setActiveServiceHover(null);
-                                      router.push(`/services/${service.slug}`);
                                     }}
                                     className={`flex items-center justify-between px-5 py-2.5 text-sm cursor-pointer transition-colors ${
                                       isServActive
@@ -246,7 +246,7 @@ export default function Header({
                                         isServActive ? 'text-[#1c71cd] translate-x-0.5' : 'text-gray-400'
                                       }`}
                                     />
-                                  </div>
+                                  </Link>
 
                                   {/* Locations Flyout Submenu: Opens on that SAME LINE (left-full top-0) */}
                                   {isServActive && (
@@ -256,15 +256,16 @@ export default function Header({
                                     >
                                       {service.districts && service.districts.length > 0 ? (
                                         service.districts.map((district) => (
-                                          <button
+                                          <Link
                                             key={district.id}
+                                            href={`/services/${service.slug}?location=${district.slug}`}
                                             onClick={(e) =>
                                               handleLocationClick(category, service, district, e)
                                             }
-                                            className="px-5 py-2 text-sm text-[#101820] hover:text-[#1c71cd] hover:bg-[#F5F8FA] transition-colors text-left font-medium cursor-pointer truncate"
+                                            className="px-5 py-2 text-sm text-[#101820] hover:text-[#1c71cd] hover:bg-[#F5F8FA] transition-colors text-left font-medium cursor-pointer truncate block"
                                           >
                                             {district.name}
-                                          </button>
+                                          </Link>
                                         ))
                                       ) : (
                                         <div className="px-5 py-2 text-xs text-gray-500 italic">
@@ -418,15 +419,16 @@ export default function Header({
                             {isServExpanded && (
                               <div className="pt-2 border-t border-gray-200/60 flex flex-wrap gap-1">
                                 {(service.districts || []).map((district) => (
-                                  <button
+                                  <Link
                                     key={district.id}
+                                    href={`/services/${service.slug}?location=${district.slug}`}
                                     onClick={(e) =>
                                       handleLocationClick(category, service, district, e)
                                     }
                                     className="px-2 py-1 bg-white text-[#101820] text-[10px] font-semibold rounded shadow-2xs hover:bg-[#1c71cd] hover:text-white transition-colors"
                                   >
                                     {district.name}
-                                  </button>
+                                  </Link>
                                 ))}
                               </div>
                             )}

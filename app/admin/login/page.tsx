@@ -113,8 +113,8 @@ export default function AdminLoginPage() {
         </form>
 
         <div className="mt-6 pt-5 border-t border-gray-100 text-center">
-          <p className="text-xs text-gray-500">
-            Configured in <span className="font-mono text-[#101820]">.env.local</span>: <span className="font-mono font-bold text-[#101820]">admin@bellfix.com</span> / <span className="font-mono font-bold text-[#101820]">admin123</span>
+          <p className="text-xs text-gray-400">
+            Authorized management access only. All activities are monitored.
           </p>
         </div>
       </div>

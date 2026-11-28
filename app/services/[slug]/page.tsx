@@ -28,6 +28,9 @@ import {
   getServices,
   getSiteSettings,
 } from '@/lib/db';
+import { absoluteUrl, DEFAULT_OG_IMAGE, SITE_NAME } from '@/lib/site';
+import JsonLd from '@/components/JsonLd';
+import { buildBreadcrumbSchema, buildServiceSchema } from '@/lib/schema';
 
 export const revalidate = 0;
 
@@ -43,25 +46,109 @@ export async function generateMetadata({
   const service = await getServiceBySlug(slug).catch(() => null);
   if (service) {
     const locTitle = locationQuery ? ` in ${locationQuery.charAt(0).toUpperCase() + locationQuery.slice(1)}` : '';
+    const title = `${service.name} Service & Repair${locTitle} | Bell Fix & Solutions`;
+    const description = service.short_description || `Professional ${service.name} service and repair by Bell Fix & Solutions.`;
+    const canonical = absoluteUrl(`/services/${service.slug}`);
+    const ogImage = service.cover_image || DEFAULT_OG_IMAGE;
+
     return {
-      title: `${service.name} Service & Repair${locTitle} | Bell Fix & Solutions`,
-      description: service.short_description,
+      title,
+      description,
+      alternates: {
+        canonical,
+      },
+      openGraph: {
+        title,
+        description,
+        url: canonical,
+        siteName: SITE_NAME,
+        locale: 'en_IN',
+        type: 'website',
+        images: [
+          {
+            url: ogImage,
+            alt: service.name,
+          },
+        ],
+      },
+      twitter: {
+        card: 'summary_large_image',
+        title,
+        description,
+        images: [ogImage],
+      },
     };
   }
 
   const category = await getServiceCategoryBySlug(slug).catch(() => null);
   if (category) {
+    const title = `${category.name} | Bell Fix & Solutions`;
+    const description = category.description || `Explore our professional ${category.name.toLowerCase()} for your home.`;
+    const canonical = absoluteUrl(`/services/${category.slug}`);
+    const ogImage = category.image_url || DEFAULT_OG_IMAGE;
+
     return {
-      title: `${category.name} | Bell Fix & Solutions`,
-      description: category.description || `Explore our professional ${category.name.toLowerCase()} for your home.`,
+      title,
+      description,
+      alternates: {
+        canonical,
+      },
+      openGraph: {
+        title,
+        description,
+        url: canonical,
+        siteName: SITE_NAME,
+        locale: 'en_IN',
+        type: 'website',
+        images: [
+          {
+            url: ogImage,
+            alt: category.name,
+          },
+        ],
+      },
+      twitter: {
+        card: 'summary_large_image',
+        title,
+        description,
+        images: [ogImage],
+      },
     };
   }
 
   const subcategory = await getSubcategoryBySlug(slug).catch(() => null);
   if (subcategory) {
+    const title = `${subcategory.name} | Bell Fix & Solutions`;
+    const description = subcategory.description || `Explore our professional ${subcategory.name.toLowerCase()} for your home.`;
+    const canonical = absoluteUrl(`/services/${subcategory.slug}`);
+    const ogImage = subcategory.image_url || DEFAULT_OG_IMAGE;
+
     return {
-      title: `${subcategory.name} | Bell Fix & Solutions`,
-      description: subcategory.description || `Explore our professional ${subcategory.name.toLowerCase()} for your home.`,
+      title,
+      description,
+      alternates: {
+        canonical,
+      },
+      openGraph: {
+        title,
+        description,
+        url: canonical,
+        siteName: SITE_NAME,
+        locale: 'en_IN',
+        type: 'website',
+        images: [
+          {
+            url: ogImage,
+            alt: subcategory.name,
+          },
+        ],
+      },
+      twitter: {
+        card: 'summary_large_image',
+        title,
+        description,
+        images: [ogImage],
+      },
     };
   }
 
@@ -119,7 +206,15 @@ export default async function ServiceDetailPage({
       activeSubcategory?.name.toLowerCase().includes('repair');
 
     return (
-      <div className="min-h-screen flex flex-col bg-white">
+      <>
+        <JsonLd
+          data={buildBreadcrumbSchema([
+            { name: 'Home', url: absoluteUrl('/') },
+            { name: 'Services', url: absoluteUrl('/services') },
+            { name: title, url: absoluteUrl(`/services/${activeCategory?.slug || activeSubcategory?.slug || slug}`) },
+          ])}
+        />
+        <div className="min-h-screen flex flex-col bg-white">
         <Header settings={settings} categories={categories} />
 
         <main className="flex-1">
@@ -177,6 +272,7 @@ export default async function ServiceDetailPage({
         <Footer settings={settings} services={allServices} />
         <FloatingWhatsApp settings={settings} />
       </div>
+      </>
     );
   }
 
@@ -200,7 +296,16 @@ export default async function ServiceDetailPage({
   );
 
   return (
-    <div className="min-h-screen flex flex-col bg-white">
+    <>
+      <JsonLd data={buildServiceSchema(service, settings)} />
+      <JsonLd
+        data={buildBreadcrumbSchema([
+          { name: 'Home', url: absoluteUrl('/') },
+          { name: 'Services', url: absoluteUrl('/services') },
+          { name: service.name, url: absoluteUrl(`/services/${service.slug}`) },
+        ])}
+      />
+      <div className="min-h-screen flex flex-col bg-white">
       <Header settings={settings} categories={categories} />
 
       <main className="flex-1">
@@ -425,5 +530,6 @@ export default async function ServiceDetailPage({
         <FloatingWhatsApp settings={settings} />
       )}
     </div>
+    </>
   );
 }

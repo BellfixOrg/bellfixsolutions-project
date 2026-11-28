@@ -5,10 +5,38 @@ import Footer from '@/components/Footer';
 import FloatingWhatsApp from '@/components/FloatingWhatsApp';
 import BookingForm from '@/components/BookingForm';
 import { getNavigationHierarchy, getServices, getSiteSettings } from '@/lib/db';
+import { absoluteUrl, DEFAULT_OG_IMAGE, SITE_NAME } from '@/lib/site';
+import JsonLd from '@/components/JsonLd';
+import { buildBreadcrumbSchema } from '@/lib/schema';
 
 export const metadata: Metadata = {
   title: 'Contact Us & Book Service | Bell Fix & Solutions',
   description: 'Book home services or contact our team via phone or WhatsApp. Available 24/7 across the city.',
+  alternates: {
+    canonical: absoluteUrl('/contact'),
+  },
+  openGraph: {
+    title: 'Contact Us & Book Service | Bell Fix & Solutions',
+    description: 'Book home services or contact our team via phone or WhatsApp. Available 24/7 across the city.',
+    url: absoluteUrl('/contact'),
+    siteName: SITE_NAME,
+    locale: 'en_IN',
+    type: 'website',
+    images: [
+      {
+        url: DEFAULT_OG_IMAGE,
+        width: 1200,
+        height: 630,
+        alt: 'Contact Bell Fix & Solutions',
+      },
+    ],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Contact Us & Book Service | Bell Fix & Solutions',
+    description: 'Book home services or contact our team via phone or WhatsApp. Available 24/7 across the city.',
+    images: [DEFAULT_OG_IMAGE],
+  },
 };
 
 export const revalidate = 0;
@@ -24,7 +52,14 @@ export default async function ContactPage() {
   const cleanWhatsApp = settings?.whatsapp_number ? settings.whatsapp_number.replace(/[^0-9]/g, '') : '';
 
   return (
-    <div className="min-h-screen flex flex-col bg-white">
+    <>
+      <JsonLd
+        data={buildBreadcrumbSchema([
+          { name: 'Home', url: absoluteUrl('/') },
+          { name: 'Contact', url: absoluteUrl('/contact') },
+        ])}
+      />
+      <div className="min-h-screen flex flex-col bg-white">
       <Header settings={settings} categories={categories} />
 
       <main className="flex-1">
@@ -178,5 +213,6 @@ export default async function ContactPage() {
         <FloatingWhatsApp settings={settings} />
       )}
     </div>
+    </>
   );
 }
