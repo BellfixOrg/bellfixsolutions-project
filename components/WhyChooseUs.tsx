@@ -15,7 +15,7 @@ const DEFAULT_DATA: WhyChooseUsSection = {
   description:
     'We go beyond just service — we deliver trust, quality, and long-term support for your home.',
   image_url:
-    'https://images.unsplash.com/photo-1621905251189-08b45d6a269e?q=80&w=1200&auto=format&fit=crop',
+    'https://res.cloudinary.com/txoznw4s/image/upload/v1795675956/why-choose-us/uzhahk7sadlgq5yf20rc.jpg',
   items: [
     {
       id: 'item-1',

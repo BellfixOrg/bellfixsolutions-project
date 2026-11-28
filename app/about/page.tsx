@@ -5,7 +5,7 @@ import Footer from '@/components/Footer';
 import FloatingWhatsApp from '@/components/FloatingWhatsApp';
 import WhyChooseUs from '@/components/WhyChooseUs';
 import FinalCTA from '@/components/FinalCTA';
-import { getNavigationHierarchy, getServices, getSiteSettings } from '@/lib/db';
+import { getNavigationHierarchy, getServices, getSiteSettings, getWhyChooseUsData } from '@/lib/db';
 import { CheckCircle } from 'lucide-react';
 import { absoluteUrl, DEFAULT_OG_IMAGE, SITE_NAME } from '@/lib/site';
 import JsonLd from '@/components/JsonLd';
@@ -44,10 +44,11 @@ export const metadata: Metadata = {
 export const revalidate = 0;
 
 export default async function AboutPage() {
-  const [settings, categories, services] = await Promise.all([
+  const [settings, categories, services, whyChooseUs] = await Promise.all([
     getSiteSettings().catch(() => null),
     getNavigationHierarchy().catch(() => []),
     getServices(true).catch(() => []),
+    getWhyChooseUsData().catch(() => null),
   ]);
 
   const stats = [
@@ -133,7 +134,7 @@ export default async function AboutPage() {
         </section>
 
         {/* Why Choose Us */}
-        <WhyChooseUs />
+        <WhyChooseUs data={whyChooseUs} />
 
         {/* Final CTA */}
         <FinalCTA settings={settings} />
