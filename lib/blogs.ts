@@ -2,8 +2,21 @@ import fs from 'fs';
 import path from 'path';
 import { BlogPost } from '@/types';
 import { getAdminClient } from './supabase/admin';
+import { getBlogSlug } from './site';
 
 const BLOGS_FILE = path.join(process.cwd(), 'data', 'blogs.json');
+
+export { getBlogSlug };
+
+export async function getBlogPostBySlug(slug: string, onlyActive = true): Promise<BlogPost | null> {
+  const blogs = await getBlogPosts(onlyActive);
+  const normalizedSlug = slug.toLowerCase().trim();
+  const found = blogs.find((b) => {
+    const postSlug = getBlogSlug(b).toLowerCase();
+    return postSlug === normalizedSlug || b.id.toLowerCase() === normalizedSlug;
+  });
+  return found || null;
+}
 
 export function readLocalBlogs(): BlogPost[] {
   try {

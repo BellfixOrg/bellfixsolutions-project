@@ -1,6 +1,7 @@
 [
   {
     "id": "blog-1",
+    "slug": "how-often-should-you-service-your-air-conditioner",
     "title": "How Often Should You Service Your Air Conditioner?",
     "category": "Repair Tips",
     "read_time": "4 min read",
@@ -12,6 +13,7 @@
   },
   {
     "id": "blog-2",
+    "slug": "top-signs-your-washing-machine-needs-urgent-repair",
     "title": "Top Signs Your Washing Machine Needs Urgent Repair",
     "category": "Appliance Care",
     "read_time": "3 min read",
@@ -23,6 +25,7 @@
   },
   {
     "id": "blog-3",
+    "slug": "why-deep-water-tank-cleaning-is-crucial-for-family-health",
     "title": "Why Deep Water Tank Cleaning is Crucial for Family Health",
     "category": "Cleaning Services",
     "read_time": "5 min read",

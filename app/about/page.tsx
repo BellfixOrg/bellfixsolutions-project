@@ -7,10 +7,38 @@ import WhyChooseUs from '@/components/WhyChooseUs';
 import FinalCTA from '@/components/FinalCTA';
 import { getNavigationHierarchy, getServices, getSiteSettings } from '@/lib/db';
 import { CheckCircle } from 'lucide-react';
+import { absoluteUrl, DEFAULT_OG_IMAGE, SITE_NAME } from '@/lib/site';
+import JsonLd from '@/components/JsonLd';
+import { buildBreadcrumbSchema } from '@/lib/schema';
 
 export const metadata: Metadata = {
   title: 'About Us | Bell Fix & Solutions',
   description: 'Learn about Bell Fix & Solutions — our mission, certified technician team, and commitment to reliable home maintenance.',
+  alternates: {
+    canonical: absoluteUrl('/about'),
+  },
+  openGraph: {
+    title: 'About Us | Bell Fix & Solutions',
+    description: 'Learn about Bell Fix & Solutions — our mission, certified technician team, and commitment to reliable home maintenance.',
+    url: absoluteUrl('/about'),
+    siteName: SITE_NAME,
+    locale: 'en_IN',
+    type: 'website',
+    images: [
+      {
+        url: DEFAULT_OG_IMAGE,
+        width: 1200,
+        height: 630,
+        alt: 'About Bell Fix & Solutions',
+      },
+    ],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'About Us | Bell Fix & Solutions',
+    description: 'Learn about Bell Fix & Solutions — our mission, certified technician team, and commitment to reliable home maintenance.',
+    images: [DEFAULT_OG_IMAGE],
+  },
 };
 
 export const revalidate = 0;
@@ -30,7 +58,14 @@ export default async function AboutPage() {
   ];
 
   return (
-    <div className="min-h-screen flex flex-col bg-white">
+    <>
+      <JsonLd
+        data={buildBreadcrumbSchema([
+          { name: 'Home', url: absoluteUrl('/') },
+          { name: 'About Us', url: absoluteUrl('/about') },
+        ])}
+      />
+      <div className="min-h-screen flex flex-col bg-white">
       <Header settings={settings} categories={categories} />
 
       <main className="flex-1">
@@ -52,9 +87,9 @@ export default async function AboutPage() {
                   <span className="text-xs font-bold uppercase tracking-widest text-[#1c71cd] mb-2 block">
                     OUR MISSION & VALUES
                   </span>
-                  <h2 className="text-2xl sm:text-3xl font-bold text-[#101820] mb-4">
+                  <h1 className="text-2xl sm:text-3xl font-bold text-[#101820] mb-4">
                     {settings.about_heading}
-                  </h2>
+                  </h1>
                   <p className="text-xs sm:text-sm text-[#667085] leading-relaxed mb-6">
                     {settings.about_description}
                   </p>
@@ -109,5 +144,6 @@ export default async function AboutPage() {
         <FloatingWhatsApp settings={settings} />
       )}
     </div>
+    </>
   );
 }

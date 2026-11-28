@@ -92,9 +92,19 @@ export default function HeroSlider({ banners, onOpenBooking }: HeroSliderProps) 
                   </span>
                 )}
 
-                <h1 className="text-[26px] sm:text-[40px] font-semibold text-white leading-tight tracking-tight mb-4 sm:mb-4 font-heading drop-shadow-sm">
-                  {slide.heading}
-                </h1>
+                {idx === 0 ? (
+                  <h1 className="text-[26px] sm:text-[40px] font-semibold text-white leading-tight tracking-tight mb-4 sm:mb-4 font-heading drop-shadow-sm">
+                    {slide.heading}
+                  </h1>
+                ) : (
+                  <div
+                    role="heading"
+                    aria-level={2}
+                    className="text-[26px] sm:text-[40px] font-semibold text-white leading-tight tracking-tight mb-4 sm:mb-4 font-heading drop-shadow-sm"
+                  >
+                    {slide.heading}
+                  </div>
+                )}
 
                 {/* Description hidden on mobile view */}
                 <p className="hidden sm:block text-[16px] text-gray-200 leading-[1.6] mb-8 max-w-lg font-body">

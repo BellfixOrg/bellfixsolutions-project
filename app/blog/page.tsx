@@ -1,12 +1,41 @@
+import type { Metadata } from 'next';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import FloatingWhatsApp from '@/components/FloatingWhatsApp';
 import BlogListClient from '@/components/BlogListClient';
 import { getBlogPosts, getNavigationHierarchy, getServices, getSiteSettings } from '@/lib/db';
+import { absoluteUrl, DEFAULT_OG_IMAGE, SITE_NAME } from '@/lib/site';
+import JsonLd from '@/components/JsonLd';
+import { buildBreadcrumbSchema } from '@/lib/schema';
 
-export const metadata = {
+export const metadata: Metadata = {
   title: 'Blog & Home Appliance Maintenance Tips | Bell Fix & Solutions',
   description: 'Expert advice, maintenance guides, and appliance repair tips from Bell Fix & Solutions.',
+  alternates: {
+    canonical: absoluteUrl('/blog'),
+  },
+  openGraph: {
+    title: 'Blog & Home Appliance Maintenance Tips | Bell Fix & Solutions',
+    description: 'Expert advice, maintenance guides, and appliance repair tips from Bell Fix & Solutions.',
+    url: absoluteUrl('/blog'),
+    siteName: SITE_NAME,
+    locale: 'en_IN',
+    type: 'website',
+    images: [
+      {
+        url: DEFAULT_OG_IMAGE,
+        width: 1200,
+        height: 630,
+        alt: 'Blog & Home Appliance Maintenance Tips | Bell Fix & Solutions',
+      },
+    ],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Blog & Home Appliance Maintenance Tips | Bell Fix & Solutions',
+    description: 'Expert advice, maintenance guides, and appliance repair tips from Bell Fix & Solutions.',
+    images: [DEFAULT_OG_IMAGE],
+  },
 };
 
 export const revalidate = 0;
@@ -20,7 +49,14 @@ export default async function BlogPage() {
   ]);
 
   return (
-    <div className="min-h-screen flex flex-col bg-white">
+    <>
+      <JsonLd
+        data={buildBreadcrumbSchema([
+          { name: 'Home', url: absoluteUrl('/') },
+          { name: 'Blog', url: absoluteUrl('/blog') },
+        ])}
+      />
+      <div className="min-h-screen flex flex-col bg-white">
       <Header settings={settings} categories={categories} />
 
       <main className="flex-1">
@@ -46,5 +82,6 @@ export default async function BlogPage() {
       <Footer settings={settings} services={services} />
       <FloatingWhatsApp settings={settings} />
     </div>
+    </>
   );
 }
