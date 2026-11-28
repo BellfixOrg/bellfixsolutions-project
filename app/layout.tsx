@@ -32,6 +32,9 @@ export const metadata: Metadata = {
       'Reliable home maintenance, AC repair, washing machine, refrigerator, water tank cleaning, CCTV, and deep cleaning services delivered right to your doorstep.',
     images: [DEFAULT_OG_IMAGE],
   },
+  verification: {
+    google: 'googleff78e55ad0638ace',
+  },
 };
 
 export const viewport: Viewport = {
