@@ -12,7 +12,7 @@ export async function PUT(
     return NextResponse.json({ success: true, data: updated });
   } catch (error) {
     console.error('Failed to update brand:', error);
-    return NextResponse.json({ success: false, error: 'Failed to update brand' }, { status: 500 });
+    return NextResponse.json({ success: false, error: error instanceof Error ? error.message : 'Failed to update brand' }, { status: 500 });
   }
 }
 
@@ -26,7 +26,7 @@ export async function DELETE(
     return NextResponse.json({ success: deleted });
   } catch (error) {
     console.error('Failed to delete brand:', error);
-    return NextResponse.json({ success: false, error: 'Failed to delete brand' }, { status: 500 });
+    return NextResponse.json({ success: false, error: error instanceof Error ? error.message : 'Failed to delete brand' }, { status: 500 });
   }
 }
 

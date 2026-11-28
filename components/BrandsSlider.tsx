@@ -12,13 +12,9 @@ export default function BrandsSlider({ brands }: BrandsSliderProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const [isOverflowing, setIsOverflowing] = useState(false);
 
-  // If no brands, don't render anything
-  if (!brands || brands.length === 0) {
-    return null;
-  }
-
   // Check if brand cards exceed/overflow the screen or container width
   useEffect(() => {
+    if (!brands || brands.length === 0) return;
     const checkOverflow = () => {
       if (containerRef.current) {
         const containerWidth = containerRef.current.clientWidth;
@@ -35,7 +31,12 @@ export default function BrandsSlider({ brands }: BrandsSliderProps) {
     checkOverflow();
     window.addEventListener('resize', checkOverflow);
     return () => window.removeEventListener('resize', checkOverflow);
-  }, [brands.length]);
+  }, [brands?.length]);
+
+  // If no brands, don't render anything
+  if (!brands || brands.length === 0) {
+    return null;
+  }
 
   // If overflowing, repeat list so it can scroll seamlessly in an infinite loop
   const displayBrands = isOverflowing

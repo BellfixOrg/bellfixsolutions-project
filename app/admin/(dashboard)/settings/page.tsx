@@ -73,7 +73,7 @@ export default function AdminSettingsPage() {
   }
 
   return (
-    <div className="max-w-4xl space-y-6">
+    <div className="space-y-6">
       <div>
         <h2 className="text-xl font-bold text-[#101820] tracking-tight">
           Website Settings

@@ -9,7 +9,7 @@ export async function GET(req: NextRequest) {
     return NextResponse.json({ success: true, data: brands });
   } catch (error) {
     console.error('Failed to get brands:', error);
-    return NextResponse.json({ success: false, error: 'Failed to retrieve brands' }, { status: 500 });
+    return NextResponse.json({ success: false, error: error instanceof Error ? error.message : 'Failed to retrieve brands' }, { status: 500 });
   }
 }
 
@@ -26,7 +26,7 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ success: true, data: saved });
   } catch (error) {
     console.error('Failed to save brand:', error);
-    return NextResponse.json({ success: false, error: 'Failed to save brand' }, { status: 500 });
+    return NextResponse.json({ success: false, error: error instanceof Error ? error.message : 'Failed to save brand' }, { status: 500 });
   }
 }
 

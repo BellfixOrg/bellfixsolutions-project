@@ -441,6 +441,7 @@ CREATE POLICY "Allow public read access on active brands"
 -- Allow service role full access
 CREATE POLICY "Allow service role full access on brands"
     ON public.brands FOR ALL
+    TO service_role
     USING (TRUE)
     WITH CHECK (TRUE);
 
